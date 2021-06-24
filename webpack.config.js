@@ -1,61 +1,19 @@
 const path = require('path');
 
-const RedactionWebpackPlugin = require('@redactie/module-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const { getWorkerConfig, getModuleConfig } = require('@redactie/utils/dist/webpack');
+
+const packageJSON = require('./package.json');
 
 module.exports = env => {
-	const defaultConfig = {
-		mode: 'production',
-		devtool: 'source-map',
-		entry: './public/index.ts',
-		performance: {
-			hints: false,
-		},
-		module: {
-			rules: [
-				{
-					test: /\.ts(x)?$/,
-					use: 'ts-loader',
-					exclude: /node_modules/,
-				},
-			],
-		},
-		resolve: {
-			extensions: ['.tsx', '.ts', '.js'],
-		},
-		plugins: [
-			// add default plugins here
-		],
-		externals: {
-			react: 'react',
-			'react-dom': 'react-dom',
-			'@redactie/redactie-core': '@redactie/redactie-core',
-		},
-		output: {
-			filename: 'redactie-boilerplate-module.umd.js',
-			path: path.resolve(__dirname, 'dist'),
-			libraryTarget: 'umd',
-		},
-	};
+	const defaultConfig = getModuleConfig({
+		packageJSON,
+		mainEntryPath: path.resolve(__dirname, './public/index.tsx'),
+		tsIncludes: [/public/],
+		sassIncludes: [/public/, /node_modules\/@a-ui\/core/],
+		outputPath: path.resolve(__dirname, 'dist'),
+	})(env);
+	// Enable this if you want to use web-workers
+	// const workerConfig = getWorkerConfig();
 
-	if (env.analyse) {
-		return {
-			...defaultConfig,
-			plugins: [...defaultConfig.plugins, new BundleAnalyzerPlugin()],
-		};
-	}
-
-	if (env.prod) {
-		return {
-			...defaultConfig,
-			plugins: [
-				...defaultConfig.plugins,
-				new RedactionWebpackPlugin({
-					moduleName: 'redactie-boilerplate',
-				}),
-			],
-		};
-	}
-
-	return defaultConfig;
+	return [defaultConfig];
 };
