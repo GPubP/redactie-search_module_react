@@ -2,6 +2,10 @@
 
 ## How to start?
 
+### Init repository
+
+Copy this repository and replace references to "redactie-boilerplate" in package.json
+
 ### Install all dependencies
 
 ```
