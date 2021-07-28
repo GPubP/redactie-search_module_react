@@ -23,3 +23,16 @@ npm run build:w
 ```
 cd demo && npm run start
 ```
+
+## Deploy
+### Publish library to package registry
+
+```
+npm login --scope=@redactie --registry=https://nexusrepo.antwerpen.be/repository/npm-all
+npm publish
+```
+
+### WCM config
+
+* add module/version to list of modules
+* enable module/version in tenant
