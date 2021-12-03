@@ -1,10 +1,4 @@
-# Redactie boilerplate module (React)
-
-## How to start?
-
-### Init repository
-
-Copy this repository and replace references to "redactie-boilerplate" in package.json
+# Redactie search module (React)
 
 ### Install all dependencies
 
