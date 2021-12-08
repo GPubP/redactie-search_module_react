@@ -4,7 +4,7 @@ import {
 	ContextHeader,
 	ContextHeaderTopSection,
 } from '@acpaas-ui/react-editorial-components';
-import { AlertContainer } from '@redactie/utils';
+import { AlertContainer, alertService } from '@redactie/utils';
 import React, { FC, useState } from 'react';
 
 import { useRoutesBreadcrumbs } from '../../hooks/useRoutesBreadcrumbs';
@@ -22,6 +22,8 @@ const SearchReindex: FC<SearchModuleRouteProps<SearchMatchProps>> = ({ match }) 
 	 */
 
 	const triggerReindex = async (): Promise<void> => {
+		alertService.dismiss();
+
 		setDisabled(true);
 		await searchFacade.triggerReindex(siteId);
 		setDisabled(false);
