@@ -32,6 +32,8 @@
     "@redactie:registry": "https://nexusrepo.antwerpen.be/repository/npm-private"
   },
   "devDependencies": {
+    "@acpaas-ui/react-components": "^5.0.9",
+    "@acpaas-ui/react-editorial-components": "0.0.18",
     "@babel/core": "7.15.5",
     "@babel/plugin-proposal-class-static-block": "^7.15.4",
     "@babel/preset-env": "7.15.6",
@@ -65,7 +67,7 @@
     "husky": "3.1.0",
     "install": "0.13.0",
     "jest": "25.1.0",
-    "lint-staged": "^12.1.2",
+    "lint-staged": "10.0.8",
     "node-sass": "4.13.1",
     "npm": "6.13.7",
     "prettier": "1.19.1",

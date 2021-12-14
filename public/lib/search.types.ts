@@ -5,3 +5,8 @@ export interface SearchModuleRouteProps<Params extends { [K in keyof Params]?: s
 	routes: ModuleRouteConfig[];
 	tenantId: string;
 }
+
+export interface SearchMatchProps {
+	siteId: string;
+	workflowUuid?: string;
+}

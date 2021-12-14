@@ -2,7 +2,9 @@ import { RenderChildRoutes, SiteContext, TenantContext } from '@redactie/utils';
 import React, { FC, useMemo } from 'react';
 
 import { rolesRightsConnector, sitesConnector } from './lib/connectors';
+import { MODULE_PATHS, SITE_PARAM } from './lib/search.const';
 import { SearchModuleRouteProps } from './lib/search.types';
+import { SearchReindex } from './lib/views';
 
 const SiteSearchComponent: FC<SearchModuleRouteProps<{ siteId: string }>> = ({
 	match,
@@ -23,27 +25,51 @@ const SiteSearchComponent: FC<SearchModuleRouteProps<{ siteId: string }>> = ({
 
 if (rolesRightsConnector.api) {
 	sitesConnector.registerRoutes({
-		path: '',
+		path: MODULE_PATHS.site.settingsRoot,
 		breadcrumb: false,
 		component: SiteSearchComponent,
-		redirect: '',
+		redirect: MODULE_PATHS.site.searchReindex,
 		guards: [
-			// rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-			// 	rolesRightsConnector.securityRights.readWorkflow,
-			// ]),
+			rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+				// rolesRightsConnector.securityRights.contentReindex,
+			]),
 		],
 		navigation: {
 			renderContext: 'site',
 			context: 'site',
 			label: 'Instellingen',
-			order: 1,
+			order: 10,
 			canShown: [
-				// rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
-				// 	rolesRightsConnector.securityRights.readWorkflow,
-				// ]),
+				rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
+					// rolesRightsConnector.securityRights.contentReindex,
+				]),
 			],
 		},
-		routes: [],
+		routes: [
+			{
+				path: MODULE_PATHS.site.searchReindex,
+				breadcrumb: false,
+				component: SearchReindex,
+				navigation: {
+					context: 'site',
+					label: 'Herindexering',
+					order: 0,
+					parentPath: MODULE_PATHS.site.settingsRoot,
+				},
+				canShown: [
+					rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
+						// rolesRightsConnector.securityRights.contentReindex,
+					]),
+				],
+				guardOptions: {
+					guards: [
+						rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+							// rolesRightsConnector.securityRights.contentReindex,
+						]),
+					],
+				},
+			},
+		],
 	});
 } else {
 	throw new Error(
