@@ -82,7 +82,7 @@ if (rolesRightsConnector.api) {
 
 registerTranslations();
 
-// Run on next cycle so that the translations module can emit the canges internally
+// Run on next cycle so that the translations module can emit the changes internally
 setTimeout(() => {
 	sitesConnector.api.registerSiteUpdateTab(CONFIG.name, {
 		label: translationsConnector.moduleTranslate(MODULE_TRANSLATIONS.SITES_TAB_TITLE),
