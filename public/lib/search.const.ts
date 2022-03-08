@@ -23,3 +23,8 @@ export const BREADCRUMB_OPTIONS = {
 export const SEARCH_ALERT_CONTAINER_IDS = {
 	reindex: 'search-reindex',
 };
+
+export const CONFIG: Readonly<{ name: string; module: string }> = {
+	name: 'search',
+	module: 'search-module',
+};

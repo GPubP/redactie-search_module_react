@@ -8,7 +8,7 @@ class SitesConnector {
 	constructor(api?: SitesModuleAPI) {
 		if (!api) {
 			throw new Error(
-				`Workflows Module:
+				`Sites Module:
 				Dependencies not found: ${SitesConnector.apiName}`
 			);
 		}

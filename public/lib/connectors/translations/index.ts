@@ -1,1 +1,3 @@
-export * from './translations';
+import translationsConnector from './translations';
+
+export { translationsConnector };
