@@ -1,8 +1,11 @@
 import { RenderChildRoutes, SiteContext, TenantContext } from '@redactie/utils';
 import React, { FC, useMemo } from 'react';
 
-import { rolesRightsConnector, sitesConnector } from './lib/connectors';
-import { MODULE_PATHS, SITE_PARAM } from './lib/search.const';
+import SiteAssetsTab from './lib/components/SiteAssetTab/SitesAssetTab';
+import { rolesRightsConnector, sitesConnector, translationsConnector } from './lib/connectors';
+import { registerTranslations } from './lib/i18next';
+import { MODULE_TRANSLATIONS } from './lib/i18next/translations.const';
+import { CONFIG, MODULE_PATHS, SITE_PARAM } from './lib/search.const';
 import { SearchModuleRouteProps } from './lib/search.types';
 import { SearchReindex } from './lib/views';
 
@@ -76,3 +79,15 @@ if (rolesRightsConnector.api) {
 		`Search Module can't resolve the following dependency: ${rolesRightsConnector.apiName}, please add the module to the dependency list.`
 	);
 }
+
+registerTranslations();
+
+// Run on next cycle so that the translations module can emit the changes internally
+setTimeout(() => {
+	sitesConnector.api.registerSiteUpdateTab(CONFIG.name, {
+		label: translationsConnector.moduleTranslate(MODULE_TRANSLATIONS.SITES_TAB_TITLE),
+		module: CONFIG.module,
+		component: SiteAssetsTab,
+		containerId: 'update' as any,
+	});
+});
