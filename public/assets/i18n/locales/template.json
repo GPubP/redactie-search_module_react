@@ -1,5 +1,8 @@
 {
   "SITES_TAB_TITLE": "Zoeken",
   "SITES_TAB_DESCRIPTION": "Voorzie een url patroon voor de geïndexeerde bestanden in de zoekindex",
-  "SITES_TAB_URLPATROON_LABEL": "URL patroon"
+  "SITES_TAB_URLPATROON_LABEL": "URL patroon",
+  "SEARCH_SETTINGS_TITLE": "Elastic Search Herindexering",
+  "SEARCH_SETTINGS_REINDEX_BUTTON_LABEL": "Herindexeer",
+  "SEARCH_SETTINGS_REINDEX_BUTTON_AREA": "Herindexeer alle inhoud van deze site in de zoekengine"
 }
