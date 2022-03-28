@@ -1,5 +1,11 @@
 {
   "SITES_TAB_TITLE": "Zoeken",
   "SITES_TAB_DESCRIPTION": "Voorzie een url patroon voor de geïndexeerde bestanden in de zoekindex",
-  "SITES_TAB_URLPATROON_LABEL": "URL patroon"
+  "SITES_TAB_URLPATROON_LABEL": "URL patroon",
+  "SEARCH_SETTINGS_TITLE": "Elastic Search Herindexering",
+  "SEARCH_SETTINGS_REINDEX_BUTTON_LABEL": "Herindexeer",
+  "SEARCH_SETTINGS_REINDEX_BUTTON_AREA": "Herindexeer alle inhoud van deze site in de zoekengine",
+  "SEARCH_REINDEX_CONFIRM_TITLE": "Ben je zeker?",
+  "SEARCH_REINDEX_CONFIRM_BODY": "Opgelet!\n\t\tHet reindexeren gaat de reeds bestaande index verwijderen en een nieuwe index aanmaken op basis van de huidige Redactie data.\n\t\tIndien er data in de huidige index aanwezig is dat niet door de Redactie is toegevoegd, ben je deze kwijt!",
+  "SEARCH_REINDEX_CONFIRM_BUTTON": "Bevestigen"
 }
