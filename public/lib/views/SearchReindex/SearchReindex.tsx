@@ -4,7 +4,7 @@ import {
 	ContextHeader,
 	ContextHeaderTopSection,
 } from '@acpaas-ui/react-editorial-components';
-import { AlertContainer, alertService } from '@redactie/utils';
+import { AlertContainer, alertService, DeletePrompt } from '@redactie/utils';
 import React, { FC, useState } from 'react';
 
 import { translationsConnector } from '../../connectors';
@@ -19,6 +19,7 @@ const SearchReindex: FC<SearchModuleRouteProps<SearchMatchProps>> = ({ match }) 
 	const [disabled, setDisabled] = useState<boolean>(false);
 	const { siteId } = match.params;
 	const [tModule] = translationsConnector.useModuleTranslation();
+	const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
 
 	/**
 	 * Functions
@@ -46,9 +47,7 @@ const SearchReindex: FC<SearchModuleRouteProps<SearchMatchProps>> = ({ match }) 
 					containerId={SEARCH_ALERT_CONTAINER_IDS.reindex}
 				/>
 				<Button
-					onClick={() => {
-						triggerReindex();
-					}}
+					onClick={() => setShowConfirmModal(true)}
 					disabled={disabled}
 					ariaLabel={tModule(MODULE_TRANSLATIONS.SEARCH_SETTINGS_REINDEX_BUTTON_AREA)}
 					type="primary"
@@ -56,6 +55,19 @@ const SearchReindex: FC<SearchModuleRouteProps<SearchMatchProps>> = ({ match }) 
 				>
 					{tModule(MODULE_TRANSLATIONS.SEARCH_SETTINGS_REINDEX_BUTTON_LABEL)}
 				</Button>
+				<DeletePrompt
+					title={tModule(MODULE_TRANSLATIONS.SEARCH_REINDEX_CONFIRM_TITLE)}
+					body={tModule(MODULE_TRANSLATIONS.SEARCH_REINDEX_CONFIRM_BODY)}
+					show={showConfirmModal}
+					confirmButtonIcon="check"
+					confirmButtonType="success"
+					confirmText={tModule(MODULE_TRANSLATIONS.SEARCH_REINDEX_CONFIRM_BUTTON)}
+					onConfirm={() => {
+						triggerReindex();
+						setShowConfirmModal(false);
+					}}
+					onCancel={() => setShowConfirmModal(false)}
+				/>
 			</Container>
 		</>
 	);

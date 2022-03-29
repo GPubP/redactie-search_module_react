@@ -20,6 +20,14 @@ const MODULE_TRANSLATIONS = Object.freeze<I18NextTranslations>({
 		'SEARCH_SETTINGS_REINDEX_BUTTON_AREA',
 		'Herindexeer alle inhoud van deze site in de zoekengine'
 	),
+	SEARCH_REINDEX_CONFIRM_TITLE: tKey('SEARCH_REINDEX_CONFIRM_TITLE', 'Ben je zeker?'),
+	SEARCH_REINDEX_CONFIRM_BODY: tKey(
+		'SEARCH_REINDEX_CONFIRM_BODY',
+		`Opgelet!
+		Het reindexeren gaat de reeds bestaande index verwijderen en een nieuwe index aanmaken op basis van de huidige Redactie data.
+		Indien er data in de huidige index aanwezig is dat niet door de Redactie is toegevoegd, ben je deze kwijt!`
+	),
+	SEARCH_REINDEX_CONFIRM_BUTTON: tKey('SEARCH_REINDEX_CONFIRM_BUTTON', 'Bevestigen'),
 });
 
 export { MODULE_TRANSLATIONS };
