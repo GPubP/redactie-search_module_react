@@ -4,7 +4,7 @@ export const SITE_PARAM = `siteId`;
 export const SITE_ROOT = `/:${SITE_PARAM}`;
 export const TENANT_ROOT = '/:tenantId';
 
-const SETTINGS_BASE_PATH = '/bewerken/search';
+const SETTINGS_BASE_PATH = '/zoeken';
 
 export const MODULE_PATHS = {
 	dashboard: '/dashboard',
