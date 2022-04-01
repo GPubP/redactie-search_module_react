@@ -1,6 +1,6 @@
 {
   "name": "@redactie/search-module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "redactie search module",
   "main": "dist/redactie-search-module.umd.js",
   "module": "dist/redactie-search-module.umd.js",
