@@ -4,7 +4,7 @@ import {
 	ActionBarContentSection,
 	LanguageHeader,
 } from '@acpaas-ui/react-editorial-components';
-import { LanguagesSchema } from '@redactie/language-module';
+import { LanguageSchema } from '@redactie/language-module';
 import { ExternalTabProps } from '@redactie/sites-module';
 import { DataLoader, Language, LeavePrompt, useDetectValueChanges } from '@redactie/utils';
 import React, { FC, ReactElement, useEffect, useState } from 'react';
@@ -22,7 +22,7 @@ const SiteAssetsTab: FC<ExternalTabProps> = ({ value, isLoading, onSubmit, onCan
 	const [loadingState, languages] = languagesConnector.hooks.useActiveLanguagesForSite(
 		site?.uuid
 	);
-	const [activeLanguage, setActiveLanguage] = useState<Language | LanguagesSchema>();
+	const [activeLanguage, setActiveLanguage] = useState<Language | LanguageSchema>();
 	const [formValue, setFormValue] = useState<SiteAssetTabFormState>(initialValues);
 	const [hasChanges, resetChangeDetection] = useDetectValueChanges(!isLoading, formValue);
 	const [t] = translationsConnector.useCoreTranslation();
@@ -59,6 +59,7 @@ const SiteAssetsTab: FC<ExternalTabProps> = ({ value, isLoading, onSubmit, onCan
 					values={initialValues}
 					onFormSubmit={onFormSubmit}
 					onChange={setFormValue}
+					activeLanguage={activeLanguage}
 				>
 					{({ submitForm }) => (
 						<>

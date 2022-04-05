@@ -6,6 +6,7 @@ import {
 	handleMultilanguageFormErrors,
 } from '@redactie/utils';
 import { Formik, FormikErrors, FormikValues } from 'formik';
+import { pathOr } from 'ramda';
 import React, { FC, useContext } from 'react';
 
 import { translationsConnector } from '../../connectors';
@@ -21,6 +22,7 @@ const SiteAssetsTabForm: FC<SiteAssetTabFormProps> = ({
 	values,
 	onChange,
 	children,
+	activeLanguage,
 }) => {
 	const { setErrors } = useContext(LanguageHeaderContext);
 	const [tModule] = translationsConnector.useModuleTranslation();
@@ -55,6 +57,15 @@ const SiteAssetsTabForm: FC<SiteAssetTabFormProps> = ({
 								name="urlPattern"
 								label={tModule(MODULE_TRANSLATIONS.SITES_TAB_URLPATROON_LABEL)}
 								className="col-xs-12 col-sm-6"
+								state={
+									activeLanguage &&
+									pathOr(
+										null,
+										['urlPattern', activeLanguage.key],
+										formikProps.errors
+									) &&
+									'error'
+								}
 							/>
 						</div>
 						{typeof children === 'function'
