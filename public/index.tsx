@@ -44,7 +44,7 @@ if (rolesRightsConnector.api) {
 			order: 10,
 			canShown: [
 				rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
-					// rolesRightsConnector.securityRights.contentReindex,
+					rolesRightsConnector.securityRights.contentReindex,
 				]),
 			],
 		},
@@ -61,13 +61,13 @@ if (rolesRightsConnector.api) {
 				},
 				canShown: [
 					rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
-						// rolesRightsConnector.securityRights.contentReindex,
+						rolesRightsConnector.securityRights.contentReindex,
 					]),
 				],
 				guardOptions: {
 					guards: [
 						rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-							// rolesRightsConnector.securityRights.contentReindex,
+							rolesRightsConnector.securityRights.contentReindex,
 						]),
 					],
 				},
