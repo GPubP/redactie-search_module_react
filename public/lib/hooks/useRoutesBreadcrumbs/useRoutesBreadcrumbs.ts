@@ -2,7 +2,8 @@ import { Breadcrumb, ModuleRouteConfig, useBreadcrumbs } from '@redactie/redacti
 import { useNavigate, useRoutes, useSiteContext } from '@redactie/utils';
 import { ReactNode } from 'react';
 
-import { BREADCRUMB_OPTIONS, MODULE_PATHS, SITES_ROOT } from '../../search.const';
+import { translationsConnector } from '../../connectors';
+import { BREADCRUMB_OPTIONS, SITES_ROOT } from '../../search.const';
 
 const useRoutesBreadcrumbs = (
 	extraBreadcrumbs: Breadcrumb[] = [],
@@ -11,26 +12,18 @@ const useRoutesBreadcrumbs = (
 ): ReactNode => {
 	const { generatePath } = useNavigate(isSiteLevel ? SITES_ROOT : undefined);
 	const { siteId } = useSiteContext();
+	const [tModule] = translationsConnector.useModuleTranslation();
 	const routes = useRoutes();
 	const breadcrumbs = useBreadcrumbs(routes as ModuleRouteConfig[], {
-		...BREADCRUMB_OPTIONS,
+		...BREADCRUMB_OPTIONS(generatePath, tModule, siteId),
 		extraBreadcrumbs: [
-			{
-				name: 'Home',
-				target: generatePath(
-					isSiteLevel ? MODULE_PATHS.site.dashboard : MODULE_PATHS.dashboard,
-					{
-						siteId,
-					}
-				),
-			},
-			{
-				name: 'Instellingen',
-				target: '',
-			},
+			...(BREADCRUMB_OPTIONS(generatePath, tModule, siteId).extraBreadcrumbs || []),
 			...extraBreadcrumbs,
 		],
-		excludePaths: [...BREADCRUMB_OPTIONS.excludePaths, ...excludePaths],
+		excludePaths: [
+			...(BREADCRUMB_OPTIONS(generatePath, tModule).excludePaths || []),
+			...excludePaths,
+		],
 	});
 
 	return breadcrumbs;

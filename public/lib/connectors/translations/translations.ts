@@ -45,4 +45,5 @@ class TranslationsConnector {
 
 const translationsConnector = new TranslationsConnector();
 
+export const CORE_TRANSLATIONS = translationsConnector.CORE_TRANSLATIONS;
 export default translationsConnector;

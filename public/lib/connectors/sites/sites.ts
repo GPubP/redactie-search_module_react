@@ -18,6 +18,14 @@ class SitesConnector {
 	public registerRoutes(routes: ModuleRouteConfig): void | false {
 		return this.api ? this.api.routes.register(routes) : false;
 	}
+
+	public get hooks(): SitesModuleAPI['hooks'] {
+		return this.api.hooks;
+	}
+
+	public get facade(): SitesModuleAPI['store']['sites']['facade'] {
+		return this.api.store.sites.facade;
+	}
 }
 
 const sitesConnector = new SitesConnector(
