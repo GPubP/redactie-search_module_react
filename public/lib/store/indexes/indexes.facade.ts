@@ -25,7 +25,7 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 					throw new Error('Getting indexes failed!');
 				}
 
-				this.store.set(response._embedded);
+				this.store.set(response._embedded.indexes);
 				this.store.update({
 					isFetching: false,
 				});
