@@ -1,7 +1,6 @@
 export interface IndexesTableRow {
-	name: string;
-	status: string;
+	label: string;
+	enabled: boolean;
 	editPath: string;
-	active: boolean;
 	reindex?: () => void;
 }

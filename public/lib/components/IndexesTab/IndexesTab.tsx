@@ -11,6 +11,7 @@ import { SearchConfigurationRouteProps } from '../../search.types';
 import { indexesFacade } from '../../store/indexes';
 
 import { INDEXES_COLUMNS } from './IndexesTab.const';
+import { IndexesTableRow } from './IndexesTab.types';
 
 const IndexesTab: FC<SearchConfigurationRouteProps> = () => {
 	const [t] = translationsConnector.useCoreTranslation();
@@ -19,13 +20,14 @@ const IndexesTab: FC<SearchConfigurationRouteProps> = () => {
 	const { siteId } = useSiteContext();
 
 	const rows = useMemo(() => {
-		return indexes?.map(index => ({
-			...index,
+		return (indexes?.map(index => ({
+			label: index?.data.label,
+			enabled: index?.meta.enabled,
 			reindex: () => {
 				console.log('reindex');
 			},
 			editPath: '',
-		}));
+		})) || []) as IndexesTableRow[];
 	}, [indexes]);
 
 	useEffect(() => {

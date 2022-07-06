@@ -17,7 +17,7 @@ export const INDEXES_COLUMNS = (
 	return [
 		{
 			label: tModule(MODULE_TRANSLATIONS.INDEXES_TABLE_TABLE_INDEX),
-			value: 'name',
+			value: 'label',
 			disableSorting: true,
 			component(label: string, { editPath }) {
 				return (
@@ -29,11 +29,11 @@ export const INDEXES_COLUMNS = (
 		},
 		{
 			label: t(CORE_TRANSLATIONS.TABLE_STATUS),
-			value: 'status',
+			value: 'enabled',
 			disableSorting: true,
 			width: '20%',
-			component(_, { active }) {
-				return active ? (
+			component(_, { enabled }) {
+				return enabled ? (
 					<Status label={t(CORE_TRANSLATIONS.STATUS_ACTIVE)} type="ACTIVE" />
 				) : (
 					<Status label={t(CORE_TRANSLATIONS['STATUS_NON-ACTIVE'])} type="INACTIVE" />
@@ -45,8 +45,8 @@ export const INDEXES_COLUMNS = (
 			classList: ['u-text-right'],
 			disableSorting: true,
 			width: '10%',
-			component(_, { active, reindex }) {
-				return active ? (
+			component(_, { enabled, reindex }) {
+				return enabled ? (
 					<Button
 						ariaLabel="Herindexeren"
 						onClick={reindex}
