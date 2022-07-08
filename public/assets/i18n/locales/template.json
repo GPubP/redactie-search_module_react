@@ -9,5 +9,7 @@
   "INDEXES_TABLE_LOADING": "Indexes ophalen",
   "INDEXES_TABLE_TABLE_INDEX": "Index",
   "INDEX_SETTINGS_LABEL_DESCRIPTION": "Geef de index een duidelijke naam.",
-  "INDEX_SETTINGS_DESCRIPTION_DESCRIPTION": "Geef de index een duidelijke beschrijving."
+  "INDEX_SETTINGS_DESCRIPTION_DESCRIPTION": "Geef de index een duidelijke beschrijving.",
+  "LABEL_VALIDATION_MESSAGE": "Een index moet een naam hebben",
+  "DESCRIPTION_VALIDATION_MESSAGE": "Beschrijving is een verplicht veld"
 }

@@ -28,6 +28,11 @@ const MODULE_TRANSLATIONS = Object.freeze<I18NextTranslations>({
 		'INDEX_SETTINGS_DESCRIPTION_DESCRIPTION',
 		'Geef de index een duidelijke beschrijving.'
 	),
+	LABEL_VALIDATION_MESSAGE: tKey('LABEL_VALIDATION_MESSAGE', 'Een index moet een naam hebben'),
+	DESCRIPTION_VALIDATION_MESSAGE: tKey(
+		'DESCRIPTION_VALIDATION_MESSAGE',
+		'Beschrijving is een verplicht veld'
+	),
 });
 
 export { MODULE_TRANSLATIONS };

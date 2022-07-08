@@ -69,7 +69,7 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 			<Formik
 				initialValues={formValue}
 				onSubmit={onSave}
-				validationSchema={INDEX_SETTINGS_VALIDATION_SCHEMA}
+				validationSchema={INDEX_SETTINGS_VALIDATION_SCHEMA(tModule)}
 			>
 				{({ errors, submitForm }) => {
 					return (
