@@ -1,13 +1,13 @@
 import { RenderChildRoutes, SiteContext, TenantContext } from '@redactie/utils';
 import React, { FC, useMemo } from 'react';
 
-import SiteAssetsTab from './lib/components/SiteAssetTab/SitesAssetTab';
-import { rolesRightsConnector, sitesConnector, translationsConnector } from './lib/connectors';
+import { IndexesTab, SettingsTab } from './lib/components';
+import { ImageSettings } from './lib/components/ImageSettings';
+import { SearchUpdate } from './lib/components/SearchUpdate';
+import { rolesRightsConnector, sitesConnector } from './lib/connectors';
 import { registerTranslations } from './lib/i18next';
-import { MODULE_TRANSLATIONS } from './lib/i18next/translations.const';
-import { CONFIG, MODULE_PATHS, SITE_PARAM } from './lib/search.const';
+import { MODULE_PATHS, SITE_PARAM } from './lib/search.const';
 import { SearchModuleRouteProps } from './lib/search.types';
-import { SearchReindex } from './lib/views';
 
 const SiteSearchComponent: FC<SearchModuleRouteProps<{ siteId: string }>> = ({
 	match,
@@ -28,49 +28,66 @@ const SiteSearchComponent: FC<SearchModuleRouteProps<{ siteId: string }>> = ({
 
 if (rolesRightsConnector.api) {
 	sitesConnector.registerRoutes({
-		path: MODULE_PATHS.site.settingsRoot,
+		path: MODULE_PATHS.site.root,
 		breadcrumb: false,
 		component: SiteSearchComponent,
-		redirect: MODULE_PATHS.site.searchReindex,
-		guards: [
-			rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-				// rolesRightsConnector.securityRights.contentReindex,
-			]),
-		],
+		redirect: MODULE_PATHS.site.indexes,
+		guardOptions: {
+			guards: [
+				// TODO: enable guard
+				rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+					// rolesRightsConnector.securityRights.settingsRead,
+				]),
+			],
+		},
 		navigation: {
 			renderContext: 'site',
 			context: 'site',
-			label: 'Instellingen',
-			order: 10,
+			label: 'Elastic App Search',
+			order: 1,
+			parentPath: MODULE_PATHS.site.settings,
 			canShown: [
+				// TODO: enable can shown
 				rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
-					rolesRightsConnector.securityRights.contentReindex,
+					// rolesRightsConnector.securityRights.settingsRead,
 				]),
 			],
 		},
 		routes: [
 			{
-				path: MODULE_PATHS.site.searchReindex,
+				path: MODULE_PATHS.site.root,
 				breadcrumb: false,
-				component: SearchReindex,
-				navigation: {
-					context: 'site',
-					label: 'Herindexering',
-					order: 0,
-					parentPath: MODULE_PATHS.site.settingsRoot,
-				},
-				canShown: [
-					rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
-						rolesRightsConnector.securityRights.contentReindex,
-					]),
+				component: SearchUpdate,
+				redirect: MODULE_PATHS.site.indexes,
+				routes: [
+					{
+						path: MODULE_PATHS.site.searchSettings,
+						breadcrumb: false,
+						component: SettingsTab,
+						redirect: MODULE_PATHS.site.images,
+						routes: [
+							{
+								path: MODULE_PATHS.site.images,
+								breadcrumb: false,
+								component: ImageSettings,
+								guardOptions: {
+									// TODO: enable guard
+									guards: [
+										// rolesRightsConnector.api.guards.securityRightsSiteGuard(
+										// 	'siteId',
+										// 	[rolesRightsConnector.securityRights.settingsRead]
+										// ),
+									],
+								},
+							},
+						],
+					},
+					{
+						path: MODULE_PATHS.site.indexes,
+						breadcrumb: false,
+						component: IndexesTab,
+					},
 				],
-				guardOptions: {
-					guards: [
-						rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-							rolesRightsConnector.securityRights.contentReindex,
-						]),
-					],
-				},
 			},
 		],
 	});
@@ -81,13 +98,3 @@ if (rolesRightsConnector.api) {
 }
 
 registerTranslations();
-
-// Run on next cycle so that the translations module can emit the changes internally
-setTimeout(() => {
-	sitesConnector.api.registerSiteUpdateTab(CONFIG.name, {
-		label: translationsConnector.moduleTranslate(MODULE_TRANSLATIONS.SITES_TAB_TITLE),
-		module: CONFIG.module,
-		component: SiteAssetsTab,
-		containerId: 'update' as any,
-	});
-});
