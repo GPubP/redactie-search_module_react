@@ -8,6 +8,7 @@ import { rolesRightsConnector, sitesConnector } from './lib/connectors';
 import { registerTranslations } from './lib/i18next';
 import { MODULE_PATHS, SITE_PARAM } from './lib/search.const';
 import { SearchModuleRouteProps } from './lib/search.types';
+import { IndexCreate, IndexDetailSettings } from './lib/views';
 
 const SiteSearchComponent: FC<SearchModuleRouteProps<{ siteId: string }>> = ({
 	match,
@@ -31,7 +32,7 @@ if (rolesRightsConnector.api) {
 		path: MODULE_PATHS.site.root,
 		breadcrumb: false,
 		component: SiteSearchComponent,
-		redirect: MODULE_PATHS.site.indexes,
+		redirect: MODULE_PATHS.site.indexOverview,
 		guardOptions: {
 			guards: [
 				// TODO: enable guard
@@ -55,10 +56,23 @@ if (rolesRightsConnector.api) {
 		},
 		routes: [
 			{
+				path: MODULE_PATHS.site.createIndex,
+				breadcrumb: false,
+				component: IndexCreate,
+				redirect: MODULE_PATHS.site.createIndexSettings,
+				routes: [
+					{
+						path: MODULE_PATHS.site.createIndexSettings,
+						breadcrumb: false,
+						component: IndexDetailSettings,
+					},
+				],
+			},
+			{
 				path: MODULE_PATHS.site.root,
 				breadcrumb: false,
 				component: SearchUpdate,
-				redirect: MODULE_PATHS.site.indexes,
+				redirect: MODULE_PATHS.site.indexOverview,
 				routes: [
 					{
 						path: MODULE_PATHS.site.searchSettings,
@@ -83,7 +97,7 @@ if (rolesRightsConnector.api) {
 						],
 					},
 					{
-						path: MODULE_PATHS.site.indexes,
+						path: MODULE_PATHS.site.indexOverview,
 						breadcrumb: false,
 						component: IndexesTab,
 					},

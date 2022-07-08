@@ -4,7 +4,12 @@ import { RolesRightsModuleAPI } from '@redactie/roles-rights-module';
 class RolesRightsConnector {
 	public apiName = 'roles-rights-module';
 	public securityRights = {
-		settingsRead: 'search_settings_read',
+		settingsRead: 'index_site-settings_read',
+		settingsUpdate: 'index_site-settings_update',
+		indexRead: 'index_read',
+		indexCreate: 'index_create',
+		indexUpdate: 'index_update',
+		indexReindex: 'index_reindex',
 	};
 	public api: RolesRightsModuleAPI;
 

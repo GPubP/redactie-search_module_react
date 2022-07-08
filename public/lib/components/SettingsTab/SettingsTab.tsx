@@ -16,7 +16,7 @@ import { NavLink } from 'react-router-dom';
 import { languagesConnector, rolesRightsConnector, sitesConnector } from '../../connectors';
 import { ALERT_CONTAINER_IDS, CONFIG, SITES_ROOT } from '../../search.const';
 import { SearchConfigurationRouteProps } from '../../search.types';
-import { alertMessages } from '../../store/indexes/indexes.messages';
+import { alertMessages } from '../../store/settings/settings.messages';
 import { SettingsTabForm } from '../SettingsTabForm';
 
 import { SEARCH_SETTINGS_COMPARTMENTS } from './SettingsTab.const';
