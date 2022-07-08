@@ -2,6 +2,8 @@ import { Breadcrumb, BreadcrumbOptions } from '@redactie/redactie-core';
 import { TranslateFunc } from '@redactie/translations-module';
 import { NavigateGenerateFn } from '@redactie/utils';
 
+import { Tab } from './search.types';
+
 export const SITES_ROOT = 'sites';
 export const SITE_PARAM = `siteId`;
 
@@ -17,7 +19,9 @@ export const MODULE_PATHS = {
 		dashboard: `${SITE_ROOT}/content`,
 		settings: `${SITE_ROOT}/configuratie`,
 		root: `${SITE_ROOT}/configuratie${SEARCH_ROOT}`,
-		indexes: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes`,
+		indexOverview: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes`,
+		createIndex: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/aanmaken`,
+		createIndexSettings: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/aanmaken/instellingen`,
 		searchSettings: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/instellingen`,
 		images: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/instellingen/afbeeldingen`,
 	},
@@ -58,4 +62,19 @@ export const CONFIG: Readonly<{ name: string; module: string }> = {
 export enum ALERT_CONTAINER_IDS {
 	update = 'update-search',
 	searchSettings = 'update-search-settings',
+	indexSettings = 'index-settings',
 }
+
+export const INDEX_DETAIL_TAB_MAP: {
+	[key in 'settings']: Tab;
+} = {
+	settings: {
+		name: 'Instellingen',
+		target: 'instellingen',
+		active: true,
+		disabled: false,
+		containerId: ALERT_CONTAINER_IDS.indexSettings,
+	},
+};
+
+export const INDEX_DETAIL_TABS: Tab[] = [INDEX_DETAIL_TAB_MAP.settings];

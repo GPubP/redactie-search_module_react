@@ -1,12 +1,22 @@
-export const alertMessages: Record<string, any> = {
+export const alertMessages = (label: string): Record<string, any> => ({
+	create: {
+		success: {
+			title: 'Aangemaakt',
+			message: `De nieuwe index "${label}" is succesvol aangemaakt.`,
+		},
+		error: {
+			title: 'Aanmaken mislukt',
+			message: `Het aanmaken van de index "${label}" is mislukt.`,
+		},
+	},
 	update: {
 		success: {
 			title: 'Bewaard',
-			message: 'Je hebt de instellingen succesvol gewijzigd.',
+			message: `De index "${label}" is bewaard.`,
 		},
 		error: {
 			title: 'Bewaren mislukt',
-			message: `Bewaren van de instellingen is mislukt.`,
+			message: `Het bewaren van de index "${label}" is mislukt.`,
 		},
 	},
-};
+});

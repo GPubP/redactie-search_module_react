@@ -10,7 +10,7 @@ import { MODULE_TRANSLATIONS } from '../../i18next/translations.const';
 import { SearchSettingsCompartments } from '../SettingsTab/SettingsTab.const';
 import { SettingsTabProps } from '../SettingsTab/SettingsTab.types';
 
-const ImageSettings: FC<SettingsTabProps> = ({ setActiveCompartment }) => {
+const ImageSettings: FC<SettingsTabProps> = ({ setActiveCompartment, rights }) => {
 	const [tModule] = translationsConnector.useModuleTranslation();
 	const { activeLanguage } = useContext(LanguageHeaderContext);
 	const { errors } = useFormikContext<FormikValues>();
@@ -30,6 +30,7 @@ const ImageSettings: FC<SettingsTabProps> = ({ setActiveCompartment }) => {
 					asComponent={TextField}
 					id="urlPattern"
 					name="urlPattern"
+					disabled={!rights.canUpdate}
 					required
 					label={tModule(MODULE_TRANSLATIONS.IMAGE_SETTINGS_TAB_URL_PATROON_LABEL)}
 					className="col-xs-12"

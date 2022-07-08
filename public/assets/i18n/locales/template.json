@@ -1,9 +1,15 @@
 {
   "SEARCH_TITLE": "Elastic App Search",
+  "CREATE_INDEX_TITLE": "Index aanmaken",
   "CONFIGURATION_TITLE": "Configuratie",
+  "INDEXES_TITLE": "Indexes",
   "IMAGES_TITLE": "Afbeeldingen",
   "IMAGE_SETTINGS_TAB_URL_PATROON_LABEL": "Url Patroon",
   "IMAGE_SETTINGS_TAB_URL_PATROON_DESCRIPTION": "Alle geïndexeerde afbeeldingen in Elastic App Search worden voorzien van een publieke URL, op basis van onderstaand URL patroon. \n Deze URL's moeten bijgevolg ondersteund worden door de BFF van deze sitesApiService.",
   "INDEXES_TABLE_LOADING": "Indexes ophalen",
-  "INDEXES_TABLE_TABLE_INDEX": "Index"
+  "INDEXES_TABLE_TABLE_INDEX": "Index",
+  "INDEX_SETTINGS_LABEL_DESCRIPTION": "Geef de index een duidelijke naam.",
+  "INDEX_SETTINGS_DESCRIPTION_DESCRIPTION": "Geef de index een duidelijke beschrijving.",
+  "LABEL_VALIDATION_MESSAGE": "Een index moet een naam hebben",
+  "DESCRIPTION_VALIDATION_MESSAGE": "Beschrijving is een verplicht veld"
 }

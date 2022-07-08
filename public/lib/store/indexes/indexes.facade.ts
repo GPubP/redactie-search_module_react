@@ -1,7 +1,10 @@
-import { BaseEntityFacade } from '@redactie/utils';
+import { alertService, BaseEntityFacade } from '@redactie/utils';
 
+import { ALERT_CONTAINER_IDS } from '../../search.const';
 import { searchApiService, SearchApiService } from '../../services/search';
+import { CreateIndexDto } from '../../services/search/search.service.types';
 
+import { alertMessages } from './indexes.messages';
 import { indexesQuery, IndexesQuery } from './indexes.query';
 import { indexesStore, IndexesStore } from './indexes.store';
 
@@ -40,11 +43,13 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 
 	public getIndex(siteId: string, indexId: string): void {
 		const { isFetchingOne } = this.query.getValue();
+
 		if (isFetchingOne) {
 			return;
 		}
 
 		this.store.setIsFetchingOne(true);
+
 		this.service
 			.getIndex(siteId, indexId)
 			.then(response => {
@@ -62,6 +67,45 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 					error,
 					isFetchingOne: false,
 				});
+			});
+	}
+
+	public async createIndex(siteId: string, payload: CreateIndexDto): Promise<void> {
+		const { isCreating } = this.query.getValue();
+
+		if (isCreating) {
+			return;
+		}
+
+		this.store.setIsCreating(true);
+
+		return this.service
+			.createIndex(siteId, payload)
+			.then(response => {
+				if (!response) {
+					throw new Error(`Creating index failed!`);
+				}
+
+				this.store.update({
+					index: response,
+					isCreating: false,
+				});
+
+				alertService.success(alertMessages(payload.label).create.success, {
+					containerId: ALERT_CONTAINER_IDS.indexSettings,
+				});
+			})
+			.catch(error => {
+				this.store.update({
+					error,
+					isCreating: false,
+				});
+
+				alertService.danger(alertMessages(payload.label).create.error, {
+					containerId: ALERT_CONTAINER_IDS.indexSettings,
+				});
+
+				throw new Error(`Creating index failed!`);
 			});
 	}
 }

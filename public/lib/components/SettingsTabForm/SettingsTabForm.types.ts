@@ -16,4 +16,5 @@ export interface SettingsTabFormProps {
 	activeLanguage: Language;
 	routes: ChildModuleRouteConfig[];
 	languages: LanguageSchema[];
+	rights: Record<string, boolean>;
 }

@@ -35,3 +35,9 @@ export interface IndexSchema {
 }
 
 export type IndexesSchema = EmbeddedResourceResponse<'indexes', IndexSchema>;
+
+export interface CreateIndexDto {
+	label: string;
+	description: string;
+	contentTypes: string[];
+}
