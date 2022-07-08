@@ -17,7 +17,8 @@
 		"resolveJsonModule": true,
 		"declaration": true,
 		"jsx": "react",
-		"outDir": "dist"
+		"outDir": "dist",
+		"experimentalDecorators": true,
 	},
 	"include": [
 		"public"

@@ -3,5 +3,7 @@
   "CONFIGURATION_TITLE": "Configuratie",
   "IMAGES_TITLE": "Afbeeldingen",
   "IMAGE_SETTINGS_TAB_URL_PATROON_LABEL": "Url Patroon",
-  "IMAGE_SETTINGS_TAB_URL_PATROON_DESCRIPTION": "Alle geïndexeerde afbeeldingen in Elastic App Search worden voorzien van een publieke URL, op basis van onderstaand URL patroon. \n Deze URL's moeten bijgevolg ondersteund worden door de BFF van deze sitesApiService."
+  "IMAGE_SETTINGS_TAB_URL_PATROON_DESCRIPTION": "Alle geïndexeerde afbeeldingen in Elastic App Search worden voorzien van een publieke URL, op basis van onderstaand URL patroon. \n Deze URL's moeten bijgevolg ondersteund worden door de BFF van deze sitesApiService.",
+  "INDEXES_TABLE_LOADING": "Indexes ophalen",
+  "INDEXES_TABLE_TABLE_INDEX": "Index"
 }

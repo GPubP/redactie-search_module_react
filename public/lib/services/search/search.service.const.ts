@@ -1,1 +1,1 @@
-export const SITE_REQUEST_PREFIX_URL = 'content/v1/sites';
+export const SEARCH_REQUEST_PREFIX_URL = 'search/v1/sites';

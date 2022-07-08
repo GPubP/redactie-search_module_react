@@ -1,4 +1,3 @@
-import { sitesApiService } from '@redactie/sites-module/dist/public/lib/services/sites';
 import { I18NextTranslations } from '@redactie/translations-module';
 
 import { translationsConnector } from '../connectors/translations';
@@ -17,6 +16,8 @@ const MODULE_TRANSLATIONS = Object.freeze<I18NextTranslations>({
 		'IMAGE_SETTINGS_TAB_URL_PATROON_DESCRIPTION',
 		"Alle geïndexeerde afbeeldingen in Elastic App Search worden voorzien van een publieke URL, op basis van onderstaand URL patroon. \n Deze URL's moeten bijgevolg ondersteund worden door de BFF van deze sitesApiService."
 	),
+	INDEXES_TABLE_LOADING: tKey('INDEXES_TABLE_LOADING', 'Indexes ophalen'),
+	INDEXES_TABLE_TABLE_INDEX: tKey('INDEXES_TABLE_TABLE_INDEX', 'Index'),
 });
 
 export { MODULE_TRANSLATIONS };
