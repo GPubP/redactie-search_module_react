@@ -5,6 +5,7 @@ import {
 	alertService,
 	DataLoader,
 	Language,
+	LoadingState,
 	NavListItem,
 	useDetectValueChanges,
 	useNavigate,
@@ -22,6 +23,7 @@ import { SettingsTabForm } from '../SettingsTabForm';
 import { SEARCH_SETTINGS_COMPARTMENTS } from './SettingsTab.const';
 
 const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
+	const [initialLoading, setInitialLoading] = useState(LoadingState.Loading);
 	const { generatePath } = useNavigate(SITES_ROOT);
 	const [navList, setNavlist] = useState<(NavListItem & { key: string; slug: string })[]>([]);
 	const [activeLanguage, setActiveLanguage] = useState<Language>();
@@ -39,10 +41,6 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 		formValue
 	);
 
-	const [, mySecurityrights] = rolesRightsConnector.api.hooks.useMySecurityRightsForSite({
-		siteUuid: siteId,
-		onlyKeys: true,
-	});
 	const activeCompartment = useMemo(() => {
 		const splitted = location.pathname.split('/');
 
@@ -51,18 +49,37 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 		)?.label;
 	}, []);
 
-	const availableCompartments = useMemo(() => {
-		// TODO: enable right
-		return SEARCH_SETTINGS_COMPARTMENTS.filter(compartment => {
-			return rolesRightsConnector.api.helpers.checkSecurityRights(mySecurityrights, [
-				// compartment.requiredSecurityRight,
-			]);
-		});
-	}, [mySecurityrights]);
+	const [
+		mySecurityRightsLoadingState,
+		mySecurityrights,
+	] = rolesRightsConnector.api.hooks.useMySecurityRightsForSite({
+		siteUuid: siteId,
+		onlyKeys: true,
+	});
+
+	const rights = useMemo(
+		() => ({
+			canUpdate: rolesRightsConnector.api.helpers.checkSecurityRights(mySecurityrights, [
+				rolesRightsConnector.securityRights.settingsUpdate,
+			]),
+		}),
+		[mySecurityrights]
+	);
+
+	useEffect(() => {
+		if (
+			languagesLoading !== LoadingState.Loading &&
+			mySecurityRightsLoadingState !== LoadingState.Loading
+		) {
+			return setInitialLoading(LoadingState.Loaded);
+		}
+
+		setInitialLoading(LoadingState.Loading);
+	}, [mySecurityRightsLoadingState, languagesLoading]);
 
 	useEffect(() => {
 		setNavlist(
-			availableCompartments.map(compartment => ({
+			SEARCH_SETTINGS_COMPARTMENTS.map(compartment => ({
 				...compartment,
 				activeClassName: 'is-active',
 				to: generatePath(compartment.to, {
@@ -72,7 +89,7 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 			}))
 		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [siteId, availableCompartments]);
+	}, [siteId]);
 
 	// setup preselected language
 	useEffect(() => {
@@ -165,6 +182,7 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 					onValidateCompartments={onValidateCompartments}
 					routes={route.routes || []}
 					languages={languages || []}
+					rights={rights}
 				/>
 			</LanguageHeader>
 		);
@@ -183,7 +201,7 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 				<div className="col-xs-12 col-md-9">
 					<div className="m-card u-padding">
 						<h3 className="u-margin-bottom">{activeCompartment}</h3>
-						<DataLoader loadingState={languagesLoading} render={renderForm} />
+						<DataLoader loadingState={initialLoading} render={renderForm} />
 					</div>
 				</div>
 			</div>

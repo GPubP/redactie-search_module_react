@@ -27,87 +27,91 @@ const SiteSearchComponent: FC<SearchModuleRouteProps<{ siteId: string }>> = ({
 };
 
 export const registerRoutes = (): void => {
-	if (rolesRightsConnector.api) {
-		sitesConnector.registerRoutes({
-			path: MODULE_PATHS.site.root,
-			breadcrumb: false,
-			component: SiteSearchComponent,
-			redirect: MODULE_PATHS.site.indexOverview,
-			guardOptions: {
-				guards: [
-					// TODO: enable guard
-					rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-						// rolesRightsConnector.securityRights.settingsRead,
-					]),
-				],
-			},
-			navigation: {
-				renderContext: 'site',
-				context: 'site',
-				label: 'Elastic App Search',
-				order: 1,
-				parentPath: MODULE_PATHS.site.settings,
-				canShown: [
-					// TODO: enable can shown
-					rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
-						// rolesRightsConnector.securityRights.settingsRead,
-					]),
-				],
-			},
-			routes: [
-				{
-					path: MODULE_PATHS.site.createIndex,
-					breadcrumb: false,
-					component: IndexCreate,
-					redirect: MODULE_PATHS.site.createIndexSettings,
-					routes: [
-						{
-							path: MODULE_PATHS.site.createIndexSettings,
-							breadcrumb: false,
-							component: IndexDetailSettings,
-						},
-					],
-				},
-				{
-					path: MODULE_PATHS.site.root,
-					breadcrumb: false,
-					component: SearchUpdate,
-					redirect: MODULE_PATHS.site.indexOverview,
-					routes: [
-						{
-							path: MODULE_PATHS.site.searchSettings,
-							breadcrumb: false,
-							component: SettingsTab,
-							redirect: MODULE_PATHS.site.images,
-							routes: [
-								{
-									path: MODULE_PATHS.site.images,
-									breadcrumb: false,
-									component: ImageSettings,
-									guardOptions: {
-										// TODO: enable guard
-										guards: [
-											// rolesRightsConnector.api.guards.securityRightsSiteGuard(
-											// 	'siteId',
-											// 	[rolesRightsConnector.securityRights.settingsRead]
-											// ),
-										],
-									},
-								},
-							],
-						},
-						{
-							path: MODULE_PATHS.site.indexOverview,
-							breadcrumb: false,
-							component: IndexesTab,
-						},
-					],
-				},
-			],
-		});
-	} else {
+	if (!rolesRightsConnector.api) {
 		throw new Error(
 			`Search Module can't resolve the following dependency: ${rolesRightsConnector.apiName}, please add the module to the dependency list.`
 		);
 	}
+
+	sitesConnector.registerRoutes({
+		path: MODULE_PATHS.site.root,
+		breadcrumb: false,
+		component: SiteSearchComponent,
+		redirect: MODULE_PATHS.site.indexOverview,
+		guardOptions: {
+			guards: [
+				rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+					rolesRightsConnector.securityRights.settingsRead,
+				]),
+			],
+		},
+		navigation: {
+			renderContext: 'site',
+			context: 'site',
+			label: 'Elastic App Search',
+			order: 1,
+			parentPath: MODULE_PATHS.site.settings,
+			canShown: [
+				rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
+					rolesRightsConnector.securityRights.settingsRead,
+				]),
+			],
+		},
+		routes: [
+			{
+				path: MODULE_PATHS.site.createIndex,
+				breadcrumb: false,
+				component: IndexCreate,
+				redirect: MODULE_PATHS.site.createIndexSettings,
+				guardOptions: {
+					guards: [
+						rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+							rolesRightsConnector.securityRights.indexCreate,
+						]),
+					],
+				},
+				routes: [
+					{
+						path: MODULE_PATHS.site.createIndexSettings,
+						breadcrumb: false,
+						component: IndexDetailSettings,
+					},
+				],
+			},
+			{
+				path: MODULE_PATHS.site.root,
+				breadcrumb: false,
+				component: SearchUpdate,
+				redirect: MODULE_PATHS.site.indexOverview,
+				routes: [
+					{
+						path: MODULE_PATHS.site.searchSettings,
+						breadcrumb: false,
+						component: SettingsTab,
+						redirect: MODULE_PATHS.site.images,
+						routes: [
+							{
+								path: MODULE_PATHS.site.images,
+								breadcrumb: false,
+								component: ImageSettings,
+							},
+						],
+					},
+					{
+						path: MODULE_PATHS.site.indexOverview,
+						breadcrumb: false,
+						component: IndexesTab,
+						guardOptions: {
+							guards: [
+								rolesRightsConnector.api.guards.securityRightsSiteGuard(
+									SITE_PARAM,
+									[rolesRightsConnector.securityRights.indexRead]
+								),
+							],
+						},
+					},
+				],
+			},
+		],
+	});
 };

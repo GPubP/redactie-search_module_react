@@ -36,6 +36,7 @@ const SettingsTabForm: FC<SettingsTabFormProps> = ({
 	activeLanguage,
 	routes,
 	languages,
+	rights,
 }) => {
 	const [t] = translationsConnector.useCoreTranslation();
 	const { setErrors } = useContext(LanguageHeaderContext);
@@ -91,6 +92,7 @@ const SettingsTabForm: FC<SettingsTabFormProps> = ({
 							extraOptions={{
 								siteId,
 								activeLanguage,
+								rights,
 								setActiveCompartment,
 							}}
 						/>
@@ -106,7 +108,7 @@ const SettingsTabForm: FC<SettingsTabFormProps> = ({
 									</Button>
 									<Button
 										iconLeft={isLoading ? 'circle-o-notch fa-spin' : null}
-										disabled={isLoading || !hasChanges}
+										disabled={isLoading || !hasChanges || !rights.canUpdate}
 										onClick={
 											(invalidCompartment && invalidCompartment.length > 0) ||
 											Object.entries(errors).length !== 0
