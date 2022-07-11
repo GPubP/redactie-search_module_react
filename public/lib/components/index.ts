@@ -1,3 +1,2 @@
-export * from './SettingsTab';
-export * from './IndexesTab';
-export * from './SettingsTabForm';
+export * from './SearchSettingsForm';
+export * from './ImageSettings';

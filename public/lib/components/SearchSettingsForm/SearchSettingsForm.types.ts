@@ -3,7 +3,7 @@ import { ChildModuleRouteConfig } from '@redactie/redactie-core';
 import { Language } from '@redactie/utils';
 import { FormikValues } from 'formik';
 
-export interface SettingsTabFormProps {
+export interface SearchSettingsFormProps {
 	initialValues: Record<string, any>;
 	formValue: FormikValues;
 	isLoading: boolean;

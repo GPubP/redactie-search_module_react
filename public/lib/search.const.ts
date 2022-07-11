@@ -20,6 +20,9 @@ export const MODULE_PATHS = {
 		settings: `${SITE_ROOT}/configuratie`,
 		root: `${SITE_ROOT}/configuratie${SEARCH_ROOT}`,
 		indexOverview: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes`,
+		indexDetail: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/:indexUuid`,
+		indexSettings: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/:indexUuid/instellingen`,
+		indexContent: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/:indexUuid/content`,
 		createIndex: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/aanmaken`,
 		createIndexSettings: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/aanmaken/instellingen`,
 		searchSettings: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/instellingen`,
@@ -60,8 +63,9 @@ export const CONFIG: Readonly<{ name: string; module: string }> = {
 };
 
 export enum ALERT_CONTAINER_IDS {
-	update = 'update-search',
-	searchSettings = 'update-search-settings',
+	searchDetail = 'search-detail',
+	updateSearchDetail = 'update-search-detail',
+	updateIndex = 'update-index',
 	indexSettings = 'index-settings',
 }
 

@@ -23,6 +23,7 @@ export interface Tab extends ContextHeaderTab {
 
 export interface SearchRouteParams {
 	siteId: string;
+	indexUuid: string;
 }
 
 export interface SearchRouteProps<Params = SearchRouteParams>
@@ -30,9 +31,10 @@ export interface SearchRouteProps<Params = SearchRouteParams>
 	routes: ModuleRouteConfig[];
 }
 
-export interface SearchConfigurationRouteProps<Params = SearchRouteParams>
+export interface SearchDetailRouteProps<Params = SearchRouteParams>
 	extends RouteConfigComponentProps<Params> {
 	siteId: string;
+	loading: boolean;
 }
 
 export interface NavRights {

@@ -16,7 +16,7 @@ export interface IndexDataSchema {
 	safeLabel: string;
 	indexName: string;
 	description: string;
-	contentTypes: IndexDataContentTypeSchema;
+	contentTypes: IndexDataContentTypeSchema[];
 }
 
 export interface IndexMetaSchema {
@@ -41,3 +41,5 @@ export interface CreateIndexDto {
 	description: string;
 	contentTypes: string[];
 }
+
+export type UpdateIndexDto = CreateIndexDto;

@@ -24,9 +24,9 @@ import { useActiveTabs, useRoutesBreadcrumbs } from '../../hooks';
 import { ALERT_CONTAINER_IDS, MODULE_PATHS, SITES_ROOT, TENANT_ROOT } from '../../search.const';
 import { SearchRouteProps } from '../../search.types';
 
-import { SEARCH_UPDATE_TABS } from './SearchUpdate.const';
+import { SEARCH_UPDATE_TABS } from './SearchDetail.const';
 
-const SearchUpdate: FC<SearchRouteProps> = ({ location, route }) => {
+const SearchDetail: FC<SearchRouteProps> = ({ location, route }) => {
 	/**
 	 * Hooks
 	 */
@@ -106,12 +106,9 @@ const SearchUpdate: FC<SearchRouteProps> = ({ location, route }) => {
 					<ContextHeaderActionsSection>
 						<rolesRightsConnector.api.components.SecurableRender
 							userSecurityRights={mySecurityrights}
-							requiredSecurityRights={
-								// TODO: ENABLE RIGHTS
-								[
-									// rolesRightsConnector.securityRights.indexCreate,
-								]
-							}
+							requiredSecurityRights={[
+								rolesRightsConnector.securityRights.indexCreate,
+							]}
 						>
 							<Button
 								iconLeft="plus"
@@ -126,7 +123,7 @@ const SearchUpdate: FC<SearchRouteProps> = ({ location, route }) => {
 			<Container>
 				<AlertContainer
 					toastClassName="u-margin-bottom"
-					containerId={ALERT_CONTAINER_IDS.update}
+					containerId={ALERT_CONTAINER_IDS.searchDetail}
 				/>
 				<DataLoader loadingState={initialLoading} render={renderChildRoutes} />
 			</Container>
@@ -134,4 +131,4 @@ const SearchUpdate: FC<SearchRouteProps> = ({ location, route }) => {
 	);
 };
 
-export default SearchUpdate;
+export default SearchDetail;
