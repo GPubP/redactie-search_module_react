@@ -46,9 +46,11 @@ export interface IndexDetailRouteProps<Params = Record<string, unknown>>
 	extends RouteConfigComponentProps<Params> {
 	isCreating?: boolean;
 	loading: boolean;
+	isRemoving: boolean;
 	rights: NavRights;
 	onSubmit: (values: IndexDetailFormValues) => Promise<void>;
 	onCancel: () => void;
+	onDelete: () => Promise<void>;
 	onSuccess?: () => void;
 	index: IndexModel;
 }

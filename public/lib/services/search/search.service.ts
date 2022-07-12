@@ -22,6 +22,10 @@ export class SearchApiService {
 			.json<IndexSchema>();
 	}
 
+	public removeIndex(siteId: string, indexId: string): Promise<void> {
+		return api.delete(`${SEARCH_REQUEST_PREFIX_URL}/${siteId}/indexes/${indexId}`).json<void>();
+	}
+
 	public createIndex(siteId: string, payload: CreateIndexDto): Promise<IndexSchema> {
 		return api
 			.post(`${SEARCH_REQUEST_PREFIX_URL}/${siteId}/indexes`, {

@@ -1,5 +1,6 @@
 import { PaginatedTable } from '@acpaas-ui/react-editorial-components';
 import {
+	AlertContainer,
 	LoadingState,
 	SearchParams,
 	useAPIQueryParams,
@@ -13,7 +14,7 @@ import translationsConnector, {
 } from '../../connectors/translations/translations';
 import { useIndexes } from '../../hooks';
 import { MODULE_TRANSLATIONS } from '../../i18next/translations.const';
-import { MODULE_PATHS, SITES_ROOT } from '../../search.const';
+import { ALERT_CONTAINER_IDS, MODULE_PATHS, SITES_ROOT } from '../../search.const';
 import { SearchDetailRouteProps } from '../../search.types';
 import { indexesFacade } from '../../store/indexes';
 
@@ -62,22 +63,28 @@ const IndexesTab: FC<SearchDetailRouteProps> = () => {
 	};
 
 	return (
-		<div className="row top-xs u-margin-bottom-lg">
-			<PaginatedTable
-				fixed
-				className="u-margin-top"
-				tableClassName="a-table--fixed--xs"
-				columns={INDEXES_COLUMNS(t, tModule)}
-				rows={rows}
-				currentPage={query.page}
-				itemsPerPage={INDEXES_DEFAULT_SEARCH_PARAMS.pagesize}
-				onPageChange={handlePageChange}
-				totalValues={indexesPaging?.totalElements || 0}
-				loading={indexesLoading === LoadingState.Loading}
-				loadDataMessage={tModule(MODULE_TRANSLATIONS.INDEXES_TABLE_LOADING)}
-				noDataMessage={t(CORE_TRANSLATIONS['TABLE_NO-RESULT'])}
+		<>
+			<AlertContainer
+				toastClassName="u-margin-bottom"
+				containerId={ALERT_CONTAINER_IDS.indexOverview}
 			/>
-		</div>
+			<div className="top-xs u-margin-bottom-lg">
+				<PaginatedTable
+					fixed
+					className="u-margin-top"
+					tableClassName="a-table--fixed--xs"
+					columns={INDEXES_COLUMNS(t, tModule)}
+					rows={rows}
+					currentPage={query.page}
+					itemsPerPage={INDEXES_DEFAULT_SEARCH_PARAMS.pagesize}
+					onPageChange={handlePageChange}
+					totalValues={indexesPaging?.totalElements || 0}
+					loading={indexesLoading === LoadingState.Loading}
+					loadDataMessage={tModule(MODULE_TRANSLATIONS.INDEXES_TABLE_LOADING)}
+					noDataMessage={t(CORE_TRANSLATIONS['TABLE_NO-RESULT'])}
+				/>
+			</div>
+		</>
 	);
 };
 

@@ -1,14 +1,23 @@
-import { Button, Textarea, TextField } from '@acpaas-ui/react-components';
+import {
+	Button,
+	Card,
+	CardBody,
+	CardDescription,
+	CardTitle,
+	Textarea,
+	TextField,
+} from '@acpaas-ui/react-components';
 import { ActionBar, ActionBarContentSection } from '@acpaas-ui/react-editorial-components';
 import {
 	AlertContainer,
+	DeletePrompt,
 	ErrorMessage,
 	FormikOnChangeHandler,
 	LeavePrompt,
 	useDetectValueChanges,
 } from '@redactie/utils';
 import { Field, Formik, FormikValues } from 'formik';
-import React, { FC, useState } from 'react';
+import React, { FC, ReactElement, useState } from 'react';
 
 import { translationsConnector } from '../../connectors';
 import { CORE_TRANSLATIONS } from '../../connectors/translations/translations';
@@ -30,9 +39,12 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 	onSubmit,
 	onCancel,
 	onSuccess,
+	onDelete,
+	isRemoving,
 }) => {
 	const [t] = translationsConnector.useCoreTranslation();
 	const [tModule] = translationsConnector.useModuleTranslation();
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [formValue, setFormValue] = useState<IndexDetailFormValues>({
 		label: index?.data.label || '',
 		description: index?.data.description || '',
@@ -56,9 +68,48 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 		setFormValue(values as IndexDetailFormValues);
 	};
 
+	const onDeletePromptConfirm = async (): Promise<void> => {
+		await onDelete();
+		setShowDeleteModal(false);
+	};
+
+	const onDeletePromptCancel = (): void => {
+		setShowDeleteModal(false);
+	};
+
 	/**
 	 * Render
 	 */
+
+	const renderDelete = (): ReactElement => {
+		return (
+			<>
+				<Card className="u-margin-top">
+					<CardBody>
+						<CardTitle>{tModule(MODULE_TRANSLATIONS.INDEX_DELETE)}</CardTitle>
+						<CardDescription>
+							{tModule(MODULE_TRANSLATIONS.INDEX_DELETE_DESCRIPTION)}
+						</CardDescription>
+						<Button
+							onClick={() => setShowDeleteModal(true)}
+							className="u-margin-top"
+							type="danger"
+							iconLeft="trash-o"
+						>
+							{t(CORE_TRANSLATIONS['BUTTON_REMOVE'])}
+						</Button>
+					</CardBody>
+				</Card>
+				<DeletePrompt
+					body={tModule(MODULE_TRANSLATIONS.INDEX_DELETE_PROMPT_BODY)}
+					isDeleting={isRemoving}
+					show={showDeleteModal}
+					onCancel={onDeletePromptCancel}
+					onConfirm={onDeletePromptConfirm}
+				/>
+			</>
+		);
+	};
 
 	return (
 		<>
@@ -111,6 +162,7 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 									</div>
 								</div>
 							</div>
+							{!isCreating && renderDelete()}
 							<ActionBar className="o-action-bar--fixed" isOpen={canEdit}>
 								<ActionBarContentSection>
 									<div className="u-wrapper row end-xs">

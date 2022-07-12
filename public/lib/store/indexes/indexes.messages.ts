@@ -1,4 +1,4 @@
-export const alertMessages = (label: string): Record<string, any> => ({
+export const alertMessages = (label?: string): Record<string, any> => ({
 	create: {
 		success: {
 			title: 'Aangemaakt',
@@ -17,6 +17,16 @@ export const alertMessages = (label: string): Record<string, any> => ({
 		error: {
 			title: 'Bewaren mislukt',
 			message: `Het bewaren van de index "${label}" is mislukt.`,
+		},
+	},
+	delete: {
+		success: {
+			title: 'Verwijderd',
+			message: `De index "${label}" is verwijderd`,
+		},
+		error: {
+			title: 'Verwijderen mislukt',
+			message: `Het verwijderen van de index "${label}" is mislukt`,
 		},
 	},
 });

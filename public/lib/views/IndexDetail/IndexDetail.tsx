@@ -42,7 +42,7 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 	const [tModule] = translationsConnector.useModuleTranslation();
 	const breadcrumbs = useRoutesBreadcrumbs([], [], true);
 	const guardsMeta = useMemo(() => ({ tenantId }), [tenantId]);
-	const { fetchingState, upsertingState, index } = useIndex();
+	const { fetchingState, upsertingState, index, removingState } = useIndex();
 
 	const pageTitle = useMemo(
 		() =>
@@ -111,6 +111,9 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 	/**
 	 * Methods
 	 */
+	const navigateToOverview = (): void => {
+		navigate(`${MODULE_PATHS.site.indexOverview}`, { siteId });
+	};
 
 	const onSubmit = (values: IndexDetailFormValues): Promise<void> => {
 		if (!index) {
@@ -121,6 +124,19 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 			...values,
 			contentTypes: index.data.contentTypes.map(ct => ct.contentTypeId) || [],
 		});
+	};
+
+	const onDelete = async (): Promise<void> => {
+		if (!index) {
+			return Promise.resolve();
+		}
+
+		await indexesFacade
+			.removeIndex(siteId, indexUuid, index)
+			.then(() => navigateToOverview())
+			.catch(() => null);
+
+		return;
 	};
 
 	const onCancel = (): void => {
@@ -139,6 +155,8 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 			rights,
 			onSubmit,
 			onCancel,
+			onDelete,
+			isRemoving: removingState === LoadingState.Loading,
 			loading:
 				fetchingState === LoadingState.Loading || upsertingState === LoadingState.Loading,
 		};
