@@ -38,7 +38,7 @@ const MODULE_TRANSLATIONS = Object.freeze<I18NextTranslations>({
 	),
 	INDEX_DELETE_PROMPT_BODY: tKey(
 		'INDEX_DELETE_PROMPT_BODY',
-		'Wanneer je deze index verwijderd wordt ook de de desbetreffende index in Elastic App Search mee verwijderd. Deze actie kan niet ongedaan gemaakt worden'
+		'Wanneer je deze index verwijderd wordt ook de de desbetreffende index in Elastic App Search mee verwijderd. Deze actie kan niet ongedaan gemaakt worden.'
 	),
 });
 

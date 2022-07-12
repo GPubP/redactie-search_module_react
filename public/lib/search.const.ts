@@ -67,6 +67,7 @@ export enum ALERT_CONTAINER_IDS {
 	updateSearchDetail = 'update-search-detail',
 	updateIndex = 'update-index',
 	indexSettings = 'index-settings',
+	indexOverview = 'index-overview',
 }
 
 export const INDEX_DETAIL_TAB_MAP: {

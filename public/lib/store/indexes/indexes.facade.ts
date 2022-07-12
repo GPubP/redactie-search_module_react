@@ -2,7 +2,11 @@ import { alertService, BaseEntityFacade, SearchParams } from '@redactie/utils';
 
 import { ALERT_CONTAINER_IDS } from '../../search.const';
 import { searchApiService, SearchApiService } from '../../services/search';
-import { CreateIndexDto, UpdateIndexDto } from '../../services/search/search.service.types';
+import {
+	CreateIndexDto,
+	IndexSchema,
+	UpdateIndexDto,
+} from '../../services/search/search.service.types';
 
 import { alertMessages } from './indexes.messages';
 import { indexesQuery, IndexesQuery } from './indexes.query';
@@ -72,7 +76,7 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 			});
 	}
 
-	public removeIndex(siteId: string, indexId: string): Promise<void> {
+	public removeIndex(siteId: string, indexId: string, payload: IndexSchema): Promise<void> {
 		const { isRemoving } = this.query.getValue();
 
 		if (isRemoving) {
@@ -88,12 +92,22 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 					index: null,
 					isRemoving: false,
 				});
+
+				alertService.success(alertMessages(payload.data.label).delete.success, {
+					containerId: ALERT_CONTAINER_IDS.indexOverview,
+				});
 			})
 			.catch(error => {
 				this.store.update({
 					error,
 					isRemoving: false,
 				});
+
+				alertService.danger(alertMessages(payload.data.label).delete.error, {
+					containerId: ALERT_CONTAINER_IDS.indexSettings,
+				});
+
+				throw new Error(`Deleting index failed!`);
 			});
 	}
 

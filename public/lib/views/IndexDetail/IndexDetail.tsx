@@ -131,8 +131,10 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 			return Promise.resolve();
 		}
 
-		await indexesFacade.removeIndex(siteId, indexUuid);
-		navigateToOverview();
+		await indexesFacade
+			.removeIndex(siteId, indexUuid, index)
+			.then(() => navigateToOverview())
+			.catch(() => null);
 
 		return;
 	};
