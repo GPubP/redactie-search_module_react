@@ -72,6 +72,31 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 			});
 	}
 
+	public removeIndex(siteId: string, indexId: string): Promise<void> {
+		const { isRemoving } = this.query.getValue();
+
+		if (isRemoving) {
+			return Promise.resolve();
+		}
+
+		this.store.setIsRemoving(true);
+
+		return this.service
+			.removeIndex(siteId, indexId)
+			.then(() => {
+				this.store.update({
+					index: null,
+					isRemoving: false,
+				});
+			})
+			.catch(error => {
+				this.store.update({
+					error,
+					isRemoving: false,
+				});
+			});
+	}
+
 	public async createIndex(siteId: string, payload: CreateIndexDto): Promise<void> {
 		const { isCreating } = this.query.getValue();
 

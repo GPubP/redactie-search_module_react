@@ -44,24 +44,24 @@ export const registerRoutes = (): void => {
 		breadcrumb: false,
 		component: SiteSearchComponent,
 		redirect: MODULE_PATHS.site.indexOverview,
-		guardOptions: {
-			guards: [
-				rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-					rolesRightsConnector.securityRights.settingsRead,
-				]),
-			],
-		},
+		// guardOptions: {
+		// 	guards: [
+		// 		rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+		// 			rolesRightsConnector.securityRights.settingsRead,
+		// 		]),
+		// 	],
+		// },
 		navigation: {
 			renderContext: 'site',
 			context: 'site',
 			label: 'Elastic App Search',
 			order: 1,
 			parentPath: MODULE_PATHS.site.settings,
-			canShown: [
-				rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
-					rolesRightsConnector.securityRights.settingsRead,
-				]),
-			],
+			// canShown: [
+			// rolesRightsConnector.api.canShowns.securityRightsSiteCanShown(SITE_PARAM, [
+			// 	rolesRightsConnector.securityRights.settingsRead,
+			// ]),
+			// ],
 		},
 		routes: [
 			{
@@ -69,13 +69,13 @@ export const registerRoutes = (): void => {
 				breadcrumb: false,
 				component: IndexCreate,
 				redirect: MODULE_PATHS.site.createIndexSettings,
-				guardOptions: {
-					guards: [
-						rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-							rolesRightsConnector.securityRights.indexCreate,
-						]),
-					],
-				},
+				// guardOptions: {
+				// 	guards: [
+				// rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+				// 	rolesRightsConnector.securityRights.indexCreate,
+				// ]),
+				// 	],
+				// },
 				routes: [
 					{
 						path: MODULE_PATHS.site.createIndexSettings,
@@ -89,13 +89,13 @@ export const registerRoutes = (): void => {
 				breadcrumb: false,
 				component: IndexDetail,
 				redirect: MODULE_PATHS.site.indexSettings,
-				guardOptions: {
-					guards: [
-						rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
-							rolesRightsConnector.securityRights.indexRead,
-						]),
-					],
-				},
+				// guardOptions: {
+				// guards: [
+				// rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+				// 	rolesRightsConnector.securityRights.indexRead,
+				// ]),
+				// 	],
+				// },
 				routes: [
 					{
 						path: MODULE_PATHS.site.indexSettings,
@@ -133,12 +133,12 @@ export const registerRoutes = (): void => {
 						breadcrumb: false,
 						component: IndexesOverview,
 						guardOptions: {
-							guards: [
-								rolesRightsConnector.api.guards.securityRightsSiteGuard(
-									SITE_PARAM,
-									[rolesRightsConnector.securityRights.indexRead]
-								),
-							],
+							// guards: [
+							// rolesRightsConnector.api.guards.securityRightsSiteGuard(
+							// 	SITE_PARAM,
+							// 	[rolesRightsConnector.securityRights.indexRead]
+							// ),
+							// ],
 						},
 					},
 				],
