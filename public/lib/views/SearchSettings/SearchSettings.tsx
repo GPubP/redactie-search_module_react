@@ -14,15 +14,15 @@ import { isEmpty } from 'ramda';
 import React, { FC, ReactElement, useEffect, useMemo, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 
+import { SearchSettingsForm } from '../../components/SearchSettingsForm';
 import { languagesConnector, rolesRightsConnector, sitesConnector } from '../../connectors';
 import { ALERT_CONTAINER_IDS, CONFIG, SITES_ROOT } from '../../search.const';
-import { SearchConfigurationRouteProps } from '../../search.types';
+import { SearchDetailRouteProps } from '../../search.types';
 import { alertMessages } from '../../store/settings/settings.messages';
-import { SettingsTabForm } from '../SettingsTabForm';
 
-import { SEARCH_SETTINGS_COMPARTMENTS } from './SettingsTab.const';
+import { SEARCH_SETTINGS_COMPARTMENTS } from './SearchSettings.const';
 
-const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
+const SearchSettings: FC<SearchDetailRouteProps> = ({ siteId, route }) => {
 	const [initialLoading, setInitialLoading] = useState(LoadingState.Loading);
 	const { generatePath } = useNavigate(SITES_ROOT);
 	const [navList, setNavlist] = useState<(NavListItem & { key: string; slug: string })[]>([]);
@@ -135,12 +135,12 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 			.then(() => {
 				resetChangeDetection();
 				alertService.success(alertMessages.update.success, {
-					containerId: ALERT_CONTAINER_IDS.searchSettings,
+					containerId: ALERT_CONTAINER_IDS.updateSearchDetail,
 				});
 			})
 			.catch(() => {
 				alertService.danger(alertMessages.update.error, {
-					containerId: ALERT_CONTAINER_IDS.searchSettings,
+					containerId: ALERT_CONTAINER_IDS.updateSearchDetail,
 				});
 			});
 	};
@@ -169,7 +169,7 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 				activeLanguage={activeLanguage}
 				onChangeLanguage={(language: string) => setActiveLanguage({ key: language })}
 			>
-				<SettingsTabForm
+				<SearchSettingsForm
 					initialValues={config || {}}
 					formValue={formValue}
 					isLoading={!!siteUI?.isFetching || !!siteUI?.isUpdating}
@@ -192,7 +192,7 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 		<>
 			<AlertContainer
 				toastClassName="u-margin-bottom"
-				containerId={ALERT_CONTAINER_IDS.searchSettings}
+				containerId={ALERT_CONTAINER_IDS.updateSearchDetail}
 			/>
 			<div className="row top-xs u-margin-bottom-lg">
 				<div className="col-xs-12 col-md-3 u-margin-bottom">
@@ -209,4 +209,4 @@ const SettingsTab: FC<SearchConfigurationRouteProps> = ({ siteId, route }) => {
 	);
 };
 
-export default SettingsTab;
+export default SearchSettings;

@@ -1,7 +1,7 @@
 import { ALERT_CONTAINER_IDS } from '../../search.const';
 import { Tab } from '../../search.types';
 
-export const SEARCH_UPDATE_TAB_MAP: {
+export const SEARCH_DETAIL_TAB_MAP: {
 	[key in 'settings' | 'indexes']: Tab;
 } = {
 	settings: {
@@ -9,18 +9,18 @@ export const SEARCH_UPDATE_TAB_MAP: {
 		target: 'instellingen',
 		active: false,
 		disabled: false,
-		containerId: ALERT_CONTAINER_IDS.update,
+		containerId: ALERT_CONTAINER_IDS.searchDetail,
 	},
 	indexes: {
 		name: 'Indexes',
 		target: 'indexes',
 		active: true,
 		disabled: false,
-		containerId: ALERT_CONTAINER_IDS.update,
+		containerId: ALERT_CONTAINER_IDS.searchDetail,
 	},
 };
 
 export const SEARCH_UPDATE_TABS: Tab[] = [
-	SEARCH_UPDATE_TAB_MAP.settings,
-	SEARCH_UPDATE_TAB_MAP.indexes,
+	SEARCH_DETAIL_TAB_MAP.settings,
+	SEARCH_DETAIL_TAB_MAP.indexes,
 ];

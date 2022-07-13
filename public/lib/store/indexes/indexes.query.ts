@@ -10,6 +10,9 @@ export class IndexesQuery extends BaseEntityQuery<IndexesState> {
 	public index$ = this.select(state => state.index).pipe(
 		filter(index => !isNil(index), distinctUntilChanged())
 	);
+	public meta$ = this.select(state => state.meta).pipe(
+		filter(meta => !isNil(meta), distinctUntilChanged())
+	);
 }
 
 export const indexesQuery = new IndexesQuery(indexesStore);

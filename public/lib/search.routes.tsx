@@ -1,13 +1,19 @@
 import { RenderChildRoutes, SiteContext, TenantContext } from '@redactie/utils';
 import React, { FC, useMemo } from 'react';
 
-import { IndexesTab, SettingsTab } from './components';
-import { ImageSettings } from './components/ImageSettings';
-import { SearchUpdate } from './components/SearchUpdate';
+import { ImageSettings } from './components';
 import { rolesRightsConnector, sitesConnector } from './connectors';
 import { MODULE_PATHS, SITE_PARAM } from './search.const';
 import { SearchModuleRouteProps } from './search.types';
-import { IndexCreate, IndexDetailSettings } from './views';
+import {
+	IndexContent,
+	IndexCreate,
+	IndexDetail,
+	IndexDetailSettings,
+	IndexesOverview,
+	SearchDetail,
+	SearchSettings,
+} from './views';
 
 const SiteSearchComponent: FC<SearchModuleRouteProps<{ siteId: string }>> = ({
 	match,
@@ -79,15 +85,40 @@ export const registerRoutes = (): void => {
 				],
 			},
 			{
+				path: MODULE_PATHS.site.indexDetail,
+				breadcrumb: false,
+				component: IndexDetail,
+				redirect: MODULE_PATHS.site.indexSettings,
+				guardOptions: {
+					guards: [
+						rolesRightsConnector.api.guards.securityRightsSiteGuard(SITE_PARAM, [
+							rolesRightsConnector.securityRights.indexRead,
+						]),
+					],
+				},
+				routes: [
+					{
+						path: MODULE_PATHS.site.indexSettings,
+						breadcrumb: false,
+						component: IndexDetailSettings,
+					},
+					{
+						path: MODULE_PATHS.site.indexContent,
+						breadcrumb: false,
+						component: IndexContent,
+					},
+				],
+			},
+			{
 				path: MODULE_PATHS.site.root,
 				breadcrumb: false,
-				component: SearchUpdate,
+				component: SearchDetail,
 				redirect: MODULE_PATHS.site.indexOverview,
 				routes: [
 					{
 						path: MODULE_PATHS.site.searchSettings,
 						breadcrumb: false,
-						component: SettingsTab,
+						component: SearchSettings,
 						redirect: MODULE_PATHS.site.images,
 						routes: [
 							{
@@ -100,7 +131,7 @@ export const registerRoutes = (): void => {
 					{
 						path: MODULE_PATHS.site.indexOverview,
 						breadcrumb: false,
-						component: IndexesTab,
+						component: IndexesOverview,
 						guardOptions: {
 							guards: [
 								rolesRightsConnector.api.guards.securityRightsSiteGuard(

@@ -20,18 +20,25 @@ const MODULE_TRANSLATIONS = Object.freeze<I18NextTranslations>({
 	),
 	INDEXES_TABLE_LOADING: tKey('INDEXES_TABLE_LOADING', 'Indexes ophalen'),
 	INDEXES_TABLE_TABLE_INDEX: tKey('INDEXES_TABLE_TABLE_INDEX', 'Index'),
+	INDEX_TITLE: tKey('INDEX_TITLE', 'Index'),
 	INDEX_SETTINGS_LABEL_DESCRIPTION: tKey(
 		'INDEX_SETTINGS_LABEL_DESCRIPTION',
-		'Geef de index een duidelijke naam.'
+		'Geef de index een korte en duidelijke naam.'
 	),
 	INDEX_SETTINGS_DESCRIPTION_DESCRIPTION: tKey(
 		'INDEX_SETTINGS_DESCRIPTION_DESCRIPTION',
-		'Geef de index een duidelijke beschrijving.'
+		'Geef de index een duidelijke beschrijving voor in het overzicht.'
 	),
+	INDEX_DELETE: tKey('INDEX_DELETE', 'Verwijder.'),
+	INDEX_DELETE_DESCRIPTION: tKey('INDEX_DELETE_DESCRIPTION', 'Verwijder deze index.'),
 	LABEL_VALIDATION_MESSAGE: tKey('LABEL_VALIDATION_MESSAGE', 'Een index moet een naam hebben'),
 	DESCRIPTION_VALIDATION_MESSAGE: tKey(
 		'DESCRIPTION_VALIDATION_MESSAGE',
 		'Beschrijving is een verplicht veld'
+	),
+	INDEX_DELETE_PROMPT_BODY: tKey(
+		'INDEX_DELETE_PROMPT_BODY',
+		'Wanneer je deze index verwijderd wordt ook de de desbetreffende index in Elastic App Search mee verwijderd. Deze actie kan niet ongedaan gemaakt worden.'
 	),
 });
 

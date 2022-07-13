@@ -8,7 +8,17 @@ import { Link } from 'react-router-dom';
 import { CORE_TRANSLATIONS } from '../../connectors/translations/translations';
 import { MODULE_TRANSLATIONS } from '../../i18next/translations.const';
 
-import { IndexesTableRow } from './IndexesTab.types';
+import { IndexesTableRow } from './IndexesOverview.types';
+
+export const INDEXES_DEFAULT_SEARCH_PARAMS = {
+	page: 1,
+	pagesize: 20,
+};
+
+export const INDEXES_QUERY_PARAMS_CONFIG = {
+	page: { defaultValue: INDEXES_DEFAULT_SEARCH_PARAMS.page, type: 'number' },
+	pagesize: { defaultValue: INDEXES_DEFAULT_SEARCH_PARAMS.pagesize, type: 'number' },
+} as const;
 
 export const INDEXES_COLUMNS = (
 	t: TranslateFunc,
@@ -19,9 +29,9 @@ export const INDEXES_COLUMNS = (
 			label: tModule(MODULE_TRANSLATIONS.INDEXES_TABLE_TABLE_INDEX),
 			value: 'label',
 			disableSorting: true,
-			component(label: string, { editPath }) {
+			component(label: string, { settingsPath }) {
 				return (
-					<AUILink to={editPath} component={Link}>
+					<AUILink to={settingsPath} component={Link}>
 						<EllipsisWithTooltip>{label}</EllipsisWithTooltip>
 					</AUILink>
 				);
@@ -64,11 +74,11 @@ export const INDEXES_COLUMNS = (
 			classList: ['u-text-right'],
 			disableSorting: true,
 			width: '10%',
-			component(_, { editPath }) {
+			component(_, { contentPath }) {
 				return (
 					<AUILink
 						ariaLabel="Bewerken"
-						to={editPath}
+						to={contentPath}
 						className="a-button a-button--transparent has-icon"
 						component={Link}
 					>

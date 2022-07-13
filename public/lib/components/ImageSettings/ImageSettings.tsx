@@ -7,10 +7,10 @@ import React, { FC, useContext, useEffect } from 'react';
 
 import { translationsConnector } from '../../connectors';
 import { MODULE_TRANSLATIONS } from '../../i18next/translations.const';
-import { SearchSettingsCompartments } from '../SettingsTab/SettingsTab.const';
-import { SettingsTabProps } from '../SettingsTab/SettingsTab.types';
+import { SearchSettingsCompartments } from '../../views/SearchSettings/SearchSettings.const';
+import { SearchSettingsProps } from '../../views/SearchSettings/SearchSettings.types';
 
-const ImageSettings: FC<SettingsTabProps> = ({ setActiveCompartment, rights }) => {
+const ImageSettings: FC<SearchSettingsProps> = ({ setActiveCompartment, rights }) => {
 	const [tModule] = translationsConnector.useModuleTranslation();
 	const { activeLanguage } = useContext(LanguageHeaderContext);
 	const { errors } = useFormikContext<FormikValues>();

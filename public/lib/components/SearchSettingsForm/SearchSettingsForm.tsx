@@ -18,12 +18,12 @@ import { translationsConnector } from '../../connectors';
 import { CORE_TRANSLATIONS } from '../../connectors/translations/translations';
 import { getCompartmentErrors } from '../../helpers/getCompartmentErrors';
 import { ALERT_CONTAINER_IDS } from '../../search.const';
-import { SearchSettingsCompartments } from '../SettingsTab/SettingsTab.const';
+import { SearchSettingsCompartments } from '../../views/SearchSettings/SearchSettings.const';
 
-import { FORM_VALIDATION_SCHEMA, SEARCH_TAB_ALLOWED_PATHS } from './SettingsTabForm.const';
-import { SettingsTabFormProps } from './SettingsTabForm.types';
+import { FORM_VALIDATION_SCHEMA, SEARCH_TAB_ALLOWED_PATHS } from './SearchSettingsForm.const';
+import { SearchSettingsFormProps } from './SearchSettingsForm.types';
 
-const SettingsTabForm: FC<SettingsTabFormProps> = ({
+const SearchSettingsForm: FC<SearchSettingsFormProps> = ({
 	initialValues,
 	formValue,
 	isLoading,
@@ -67,7 +67,7 @@ const SettingsTabForm: FC<SettingsTabFormProps> = ({
 
 	const alert = (): void => {
 		alertService.invalidForm({
-			containerId: ALERT_CONTAINER_IDS.searchSettings,
+			containerId: ALERT_CONTAINER_IDS.updateSearchDetail,
 		});
 	};
 
@@ -136,4 +136,4 @@ const SettingsTabForm: FC<SettingsTabFormProps> = ({
 	);
 };
 
-export default SettingsTabForm;
+export default SearchSettingsForm;
