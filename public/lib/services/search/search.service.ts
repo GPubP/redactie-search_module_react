@@ -3,7 +3,7 @@ import { parseSearchParams, SearchParams } from '@redactie/utils';
 import api from '../api/api.service';
 
 import { SEARCH_REQUEST_PREFIX_URL } from './search.service.const';
-import { CreateIndexDto, IndexesSchema, IndexSchema, UpdateIndexDto } from './search.service.types';
+import { CreateIndexDto, IndexesSchema, IndexSchema, UpdateIndexActivationDto, UpdateIndexDto } from './search.service.types';
 
 export class SearchApiService {
 	public getIndexes(siteId: string, searchParams: SearchParams): Promise<IndexesSchema> {
@@ -44,6 +44,14 @@ export class SearchApiService {
 				json: payload,
 			})
 			.json<IndexSchema>();
+	}
+
+	public async updateIndexActivation(siteId: string, {
+		id,
+		activate,
+	}: UpdateIndexActivationDto): Promise<IndexSchema> {
+		const updateType = activate ? 'activate' : 'deactivate';
+		return await api.put(`${SEARCH_REQUEST_PREFIX_URL}/${siteId}/indexes/${id}/${updateType}`).json();
 	}
 }
 

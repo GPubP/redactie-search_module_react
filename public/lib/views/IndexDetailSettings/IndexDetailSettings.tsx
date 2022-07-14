@@ -7,23 +7,26 @@ import {
 	Textarea,
 	TextField,
 } from '@acpaas-ui/react-components';
-import { ActionBar, ActionBarContentSection } from '@acpaas-ui/react-editorial-components';
+import { ActionBar, ActionBarContentSection, Status } from '@acpaas-ui/react-editorial-components';
 import {
 	AlertContainer,
+	DataLoader,
 	DeletePrompt,
 	ErrorMessage,
 	FormikOnChangeHandler,
 	LeavePrompt,
 	useDetectValueChanges,
+	useSiteContext,
 } from '@redactie/utils';
 import { Field, Formik, FormikValues } from 'formik';
 import React, { FC, ReactElement, useState } from 'react';
 
-import { translationsConnector } from '../../connectors';
+import { sitesConnector, translationsConnector } from '../../connectors';
 import { CORE_TRANSLATIONS } from '../../connectors/translations/translations';
 import { MODULE_TRANSLATIONS } from '../../i18next/translations.const';
 import { ALERT_CONTAINER_IDS } from '../../search.const';
 import { IndexDetailRouteProps, SearchMatchProps } from '../../search.types';
+import { indexesFacade } from '../../store/indexes';
 
 import {
 	INDEX_SETTINGS_VALIDATION_SCHEMA,
@@ -42,6 +45,8 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 	onDelete,
 	isRemoving,
 }) => {
+	const { siteId } = useSiteContext();
+	const [activationLoading, setActivationLoading] = useState(false);
 	const [t] = translationsConnector.useCoreTranslation();
 	const [tModule] = translationsConnector.useModuleTranslation();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -53,10 +58,37 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 
 	const canEdit = isCreating ? true : rights?.canUpdate;
 
+	const getLoadingStateBtnProps = (
+		loading: boolean
+	): { iconLeft: string; disabled: boolean } | null => {
+		return loading
+			? {
+					iconLeft: 'circle-o-notch fa-spin',
+					disabled: true,
+			  }
+			: null;
+	};
+
 	/**
 	 * Methods
 	 */
+
+	const onActiveToggle = async (): Promise<void> => {
+		if (index) {
+			setActivationLoading(true);
+
+			await indexesFacade.updateIndexActivation(siteId, {
+				id: index.uuid,
+				activate: !index.meta.enabled,
+				label: index.data.label,
+			});
+
+			setActivationLoading(false);
+		}
+	};
+
 	const onSave = async (): Promise<void> => {
+		setActivationLoading(false);
 		await onSubmit(formValue);
 		resetIsChanged();
 		if (onSuccess && typeof onSuccess === 'function') {
@@ -81,15 +113,58 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 	 * Render
 	 */
 
-	const renderDelete = (): ReactElement => {
+	const renderStatusCard = (): ReactElement => {
+		const isActive = !!index.meta?.enabled;
+
+		const statusText = index.meta?.enabled ? (
+			<p>
+				{' '}
+				Deactiveer deze index om het indexeren van content naar Elastic Search App te
+				stoppen. Van zodra je opnieuw activeert zal het indexeren hervatten.
+			</p>
+		) : (
+			<p>
+				Deze index is niet actief, activeer deze index om content te indexeren in Elastic
+				Search App.
+			</p>
+		);
+
 		return (
 			<>
 				<Card className="u-margin-top">
 					<CardBody>
-						<CardTitle>{tModule(MODULE_TRANSLATIONS.INDEX_DELETE)}</CardTitle>
-						<CardDescription>
-							{tModule(MODULE_TRANSLATIONS.INDEX_DELETE_DESCRIPTION)}
-						</CardDescription>
+						<CardTitle>
+							Status:{' '}
+							{index?.meta?.enabled ? (
+								<Status label={t(CORE_TRANSLATIONS.STATUS_ACTIVE)} type="ACTIVE" />
+							) : (
+								<Status
+									label={t(CORE_TRANSLATIONS['STATUS_NON-ACTIVE'])}
+									type="INACTIVE"
+								/>
+							)}
+						</CardTitle>
+						<CardDescription>{statusText}</CardDescription>
+						{isActive && (
+							<Button
+								{...getLoadingStateBtnProps(activationLoading)}
+								onClick={onActiveToggle}
+								className="u-margin-top u-margin-right"
+								type="primary"
+							>
+								{t('BUTTON_DEACTIVATE')}
+							</Button>
+						)}
+						{!isActive && (
+							<Button
+								{...getLoadingStateBtnProps(activationLoading)}
+								onClick={onActiveToggle}
+								className="u-margin-top u-margin-right"
+								type="primary"
+							>
+								{t('BUTTON_ACTIVATE')}
+							</Button>
+						)}
 						<Button
 							onClick={() => setShowDeleteModal(true)}
 							className="u-margin-top"
@@ -113,10 +188,6 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 
 	return (
 		<>
-			<AlertContainer
-				toastClassName="u-margin-bottom"
-				containerId={ALERT_CONTAINER_IDS.indexSettings}
-			/>
 			<Formik
 				initialValues={formValue}
 				onSubmit={onSave}
@@ -162,7 +233,7 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 									</div>
 								</div>
 							</div>
-							{!isCreating && renderDelete()}
+							{canEdit && !isCreating && renderStatusCard()}
 							<ActionBar className="o-action-bar--fixed" isOpen={canEdit}>
 								<ActionBarContentSection>
 									<div className="u-wrapper row end-xs">
