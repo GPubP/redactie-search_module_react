@@ -88,7 +88,6 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 	};
 
 	const onSave = async (): Promise<void> => {
-		setActivationLoading(false);
 		await onSubmit(formValue);
 		resetIsChanged();
 		if (onSuccess && typeof onSuccess === 'function') {
