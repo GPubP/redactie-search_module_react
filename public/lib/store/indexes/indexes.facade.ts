@@ -6,6 +6,8 @@ import {
 	CreateIndexDto,
 	IndexSchema,
 	UpdateIndexDto,
+	UpdateIndexActivationDto,
+	IndexDetailResponse,
 } from '../../services/search/search.service.types';
 
 import { alertMessages } from './indexes.messages';
@@ -188,6 +190,48 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 				alertService.danger(alertMessages(payload.label).update.error, {
 					containerId: ALERT_CONTAINER_IDS.indexSettings,
 				});
+			});
+	}
+
+	public async updateIndexActivation(
+		siteId: string,
+		payload: UpdateIndexActivationDto
+	): Promise<IndexDetailResponse | void> {
+		const { isUpdating } = this.query.getValue();
+
+		if (isUpdating) {
+			return;
+		}
+		
+		return this.service
+			.updateIndexActivation(siteId, payload)
+			.then(response => {
+				if (!response) {
+					throw new Error(`Updating index failed!`);
+				}
+
+				this.store.update({
+					index: response,
+				});
+				payload.activate
+					? alertService.success(alertMessages(payload.label).activate.success, {
+							containerId: ALERT_CONTAINER_IDS.indexSettings,
+					  })
+					: alertService.success(alertMessages(payload.label).deactivate.success, {
+							containerId: ALERT_CONTAINER_IDS.indexSettings,
+					  });
+			})
+			.catch(error => {
+				this.store.update({
+					error,
+				});
+				payload.activate
+					? alertService.danger(alertMessages(payload.label).activate.error, {
+							containerId: ALERT_CONTAINER_IDS.indexSettings,
+					  })
+					: alertService.danger(alertMessages(payload.label).deactivate.error, {
+							containerId: ALERT_CONTAINER_IDS.indexSettings,
+					  });
 			});
 	}
 }

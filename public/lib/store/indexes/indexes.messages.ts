@@ -29,4 +29,24 @@ export const alertMessages = (label?: string): Record<string, any> => ({
 			message: `Het verwijderen van de index "${label}" is mislukt`,
 		},
 	},
+	activate: {
+		success: {
+			title: 'Geactiveerd',
+			message: `Je hebt de index ${label} succesvol geactiveerd.`,
+		},
+		error: {
+			title: 'Activeren mislukt',
+			message: `Activeren van de index ${label} is mislukt.`,
+		},
+	},
+	deactivate: {
+		success: {
+			title: 'Gedeactiveerd',
+			message: `Je hebt de index ${label} succesvol gedeactiveerd.`,
+		},
+		error: {
+			title: 'Deactiveren mislukt',
+			message: `Deactiveren van de index ${label} is mislukt.`,
+		},
+	},
 });
