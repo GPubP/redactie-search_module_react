@@ -175,8 +175,9 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 			<ContextHeader
 				tabs={activeTabs}
 				linkProps={(props: ContextHeaderTabLinkProps) => {
-					const to = generatePath(`${MODULE_PATHS.site.root}/${props.href}`, {
+					const to = generatePath(`${MODULE_PATHS.site.indexDetail}/${props.href}`, {
 						siteId,
+						indexUuid,
 					});
 					return {
 						...props,

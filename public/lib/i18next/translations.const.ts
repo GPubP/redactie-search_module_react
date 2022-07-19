@@ -40,6 +40,12 @@ const MODULE_TRANSLATIONS = Object.freeze<I18NextTranslations>({
 		'INDEX_DELETE_PROMPT_BODY',
 		'Wanneer je deze index verwijderd wordt ook de de desbetreffende index in Elastic App Search mee verwijderd. Deze actie kan niet ongedaan gemaakt worden.'
 	),
+	PAGE: tKey('PAGE', 'Pagina'),
+	BLOCK: tKey('BLOCK', 'Blok'),
+	INDEX: tKey('INDEX', 'Indexeren'),
+	NO_INDEX: tKey('NO_INDEX', 'Niet indexeren'),
+	REINDEX: tKey('REINDEX', 'Herindexeren'),
+	EDIT: tKey('EDIT', 'Bewerken'),
 });
 
 export { MODULE_TRANSLATIONS };

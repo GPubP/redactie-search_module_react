@@ -1,3 +1,4 @@
+import { ContentTypeModel } from '@redactie/content-types-module/dist/lib/store/contentTypes';
 import { EmbeddedResourceResponse } from '@redactie/utils';
 
 export interface IndexDataContentTypeFieldSchema {
@@ -35,6 +36,8 @@ export interface IndexSchema {
 }
 
 export type IndexesSchema = EmbeddedResourceResponse<'indexes', IndexSchema>;
+
+export type IndexContentTypesSchema = EmbeddedResourceResponse<'content-types', ContentTypeModel>;
 
 export interface CreateIndexDto {
 	label: string;
