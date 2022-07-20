@@ -4,10 +4,10 @@ import { ALERT_CONTAINER_IDS } from '../../search.const';
 import { searchApiService, SearchApiService } from '../../services/search';
 import {
 	CreateIndexDto,
-	IndexSchema,
-	UpdateIndexDto,
-	UpdateIndexActivationDto,
 	IndexDetailResponse,
+	IndexSchema,
+	UpdateIndexActivationDto,
+	UpdateIndexDto,
 } from '../../services/search/search.service.types';
 
 import { alertMessages } from './indexes.messages';
@@ -166,7 +166,10 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 		this.store.setIsUpdating(true);
 
 		return this.service
-			.updateIndex(siteId, indexId, payload)
+			.updateIndex(siteId, indexId, {
+				contentTypes: [],
+				...payload,
+			})
 			.then(response => {
 				if (!response) {
 					throw new Error(`Updating index failed!`);
@@ -202,7 +205,7 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 		if (isUpdating) {
 			return;
 		}
-		
+
 		return this.service
 			.updateIndexActivation(siteId, payload)
 			.then(response => {

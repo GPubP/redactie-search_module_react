@@ -120,7 +120,10 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 			return Promise.resolve();
 		}
 
-		return indexesFacade.updateIndex(siteId, indexUuid, values);
+		return indexesFacade.updateIndex(siteId, indexUuid, {
+			...index.data,
+			...values,
+		});
 	};
 
 	const onDelete = async (): Promise<void> => {

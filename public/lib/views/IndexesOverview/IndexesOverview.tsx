@@ -40,11 +40,11 @@ const IndexesTab: FC<SearchDetailRouteProps> = () => {
 			reindex: () => {
 				console.log('reindex');
 			},
-			settingsPath: generatePath(MODULE_PATHS.site.indexDetail, {
+			settingsPath: generatePath(MODULE_PATHS.site.indexSettings, {
 				indexUuid: index.uuid,
 				siteId,
 			}),
-			contentPath: generatePath(MODULE_PATHS.site.indexDetail, {
+			contentPath: generatePath(MODULE_PATHS.site.indexContent, {
 				indexUuid: index.uuid,
 				siteId,
 			}),

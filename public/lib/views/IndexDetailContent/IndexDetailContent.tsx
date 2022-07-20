@@ -1,7 +1,7 @@
-import { Table } from '@acpaas-ui/react-editorial-components';
+import { PaginatedTable } from '@acpaas-ui/react-editorial-components';
 import { ContentTypeResponse } from '@redactie/content-types-module/dist/lib/services/contentTypes';
-import { AlertContainer, LoadingState } from '@redactie/utils';
-import React, { FC, useEffect } from 'react';
+import { AlertContainer, LoadingState, SearchParams, useAPIQueryParams } from '@redactie/utils';
+import React, { FC, useEffect, useState } from 'react';
 
 import { translationsConnector } from '../../connectors';
 import useDisabledIndexContentTypes from '../../hooks/useDisabledIndexContentTypes/useDisabledIndexContentTypes';
@@ -24,19 +24,48 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 }) => {
 	const { siteId, indexUuid } = match.params;
 
-	const [disabledContentTypesLoading, disabledContentTypes] = useDisabledIndexContentTypes();
-	const [enabledContentTypesLoading, enabledContentTypes] = useEnabledIndexContentTypes();
+	const [
+		disabledContentTypesLoading,
+		disabledContentTypes,
+		disabledContentTypesPaging,
+	] = useDisabledIndexContentTypes();
+	const [
+		enabledContentTypesLoading,
+		enabledContentTypes,
+		enabledContentTypesPaging,
+	] = useEnabledIndexContentTypes();
+	const [disabledContentTypesQuery, setDisabledContentTypesQuery] = useState({
+		pagesize: 10,
+		page: 1,
+	});
+	const [enabledContentTypesQuery, setEnabledContentTypesQuery] = useState({
+		pagesize: 10,
+		page: 1,
+	});
 	const [t] = translationsConnector.useCoreTranslation();
 	const [tModule] = translationsConnector.useModuleTranslation();
 
 	/**
 	 * Hooks
 	 */
+
 	useEffect(() => {
-		indexContentTypesFacade.getDisabledIndexContentTypes(siteId, indexUuid, {});
-		indexContentTypesFacade.getEnabledIndexContentTypes(siteId, indexUuid, {});
+		indexContentTypesFacade.getDisabledIndexContentTypes(
+			siteId,
+			indexUuid,
+			disabledContentTypesQuery as SearchParams
+		);
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
+	}, [disabledContentTypesQuery]);
+
+	useEffect(() => {
+		indexContentTypesFacade.getEnabledIndexContentTypes(
+			siteId,
+			indexUuid,
+			enabledContentTypesQuery as SearchParams
+		);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [enabledContentTypesQuery]);
 
 	/**
 	 * Methods
@@ -53,7 +82,11 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 			],
 		});
 
-		indexContentTypesFacade.getDisabledIndexContentTypes(siteId, indexUuid, {});
+		indexContentTypesFacade.getDisabledIndexContentTypes(
+			siteId,
+			indexUuid,
+			disabledContentTypesQuery as SearchParams
+		);
 		indexContentTypesFacade.getEnabledIndexContentTypes(siteId, indexUuid, {});
 	};
 
@@ -69,6 +102,14 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 		indexContentTypesFacade.getEnabledIndexContentTypes(siteId, indexUuid, {});
 	};
 
+	const handleDisabledContentTypesPagination = (page: number): void => {
+		setDisabledContentTypesQuery({ ...disabledContentTypesQuery, page });
+	};
+
+	const handleEnabledContentTypesPagination = (page: number): void => {
+		setEnabledContentTypesQuery({ ...enabledContentTypesQuery, page });
+	};
+
 	const mapContentType = (ct: ContentTypeResponse): IndexContentRowData => ({
 		label: ct?.meta?.label,
 		description: ct?.meta?.description,
@@ -80,6 +121,8 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 	const enabledRows: IndexContentRowData[] = (enabledContentTypes || []).map(mapContentType);
 	const disabledRows: IndexContentRowData[] = (disabledContentTypes || []).map(mapContentType);
 
+	console.log(enabledContentTypesPaging);
+
 	return (
 		<>
 			<AlertContainer
@@ -88,7 +131,7 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 			/>
 
 			<h4>{tModule(MODULE_TRANSLATIONS.INDEX)}</h4>
-			<Table
+			<PaginatedTable
 				fixed
 				dataKey="id"
 				className="u-margin-top"
@@ -96,10 +139,14 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 				columns={ENABLED_INDEX_CONTENT_COLUMNS(t, tModule, onDisableIndex)}
 				loading={enabledContentTypesLoading === LoadingState.Loading}
 				rows={enabledRows}
+				totalValues={enabledContentTypesPaging?.totalElements ?? 0}
+				currentPage={enabledContentTypesPaging?.number}
+				itemsPerPage={enabledContentTypesQuery?.pagesize}
+				onPageChange={handleEnabledContentTypesPagination}
 			/>
 
 			<h4 className="u-margin-top-lg">{tModule(MODULE_TRANSLATIONS.NO_INDEX)}</h4>
-			<Table
+			<PaginatedTable
 				fixed
 				dataKey="id"
 				className="u-margin-top"
@@ -107,6 +154,10 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 				columns={DISABLED_INDEX_CONTENT_COLUMNS(t, tModule, onEnableIndex)}
 				loading={disabledContentTypesLoading === LoadingState.Loading}
 				rows={disabledRows}
+				totalValues={disabledContentTypesPaging?.totalElements ?? 0}
+				currentPage={disabledContentTypesPaging?.number}
+				itemsPerPage={enabledContentTypesQuery?.pagesize}
+				onPageChange={handleDisabledContentTypesPagination}
 			/>
 		</>
 	);
