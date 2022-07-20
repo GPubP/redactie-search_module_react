@@ -9,7 +9,7 @@ export interface IndexDataContentTypeFieldSchema {
 
 export interface IndexDataContentTypeSchema {
 	contentTypeId: string;
-	field: IndexDataContentTypeFieldSchema[];
+	fields: IndexDataContentTypeFieldSchema[];
 }
 
 export interface IndexDataSchema {
@@ -42,7 +42,9 @@ export type IndexContentTypesSchema = EmbeddedResourceResponse<'content-types', 
 export interface CreateIndexDto {
 	label: string;
 	description: string;
-	contentTypes: string[];
+	contentTypes?: {
+		contentTypeId: string;
+	}[];
 }
 
 export type UpdateIndexDto = CreateIndexDto;

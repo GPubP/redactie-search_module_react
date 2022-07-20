@@ -172,7 +172,7 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 
 				this.store.update({
 					index: response,
-					isCreating: false,
+					isUpdating: false,
 				});
 
 				alertService.success(alertMessages(payload.label).update.success, {
@@ -182,7 +182,7 @@ export class IndexesFacade extends BaseEntityFacade<IndexesStore, SearchApiServi
 			.catch(error => {
 				this.store.update({
 					error,
-					isCreating: false,
+					isUpdating: false,
 				});
 
 				alertService.danger(alertMessages(payload.label).update.error, {

@@ -1,22 +1,18 @@
-import { Button, ButtonGroup } from '@acpaas-ui/react-components';
+import { Button } from '@acpaas-ui/react-components';
 import { HoverTooltip } from '@acpaas-ui/react-editorial-components';
 import { TranslateFunc } from '@redactie/translations-module';
-import { InfoTooltip, TableColumn } from '@redactie/utils';
-import { isNil } from 'ramda';
-import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { TableColumn } from '@redactie/utils';
+import React from 'react';
 
 import { ContentTypeInfoTooltip } from '../../components';
 import { translationsConnector } from '../../connectors';
-import { CORE_TRANSLATIONS } from '../../connectors/translations/translations';
 import { MODULE_TRANSLATIONS } from '../../i18next/translations.const';
 
 import { IndexContentRowData } from './IndexDetailContent.types';
 
-export const INDEX_CONTENT_COLUMNS = (
+const GENERIC_INDEX_CONTENT_COLUMNS = (
 	t: TranslateFunc,
-	tModule: TranslateFunc,
-	disabled: boolean
+	tModule: TranslateFunc
 ): TableColumn<IndexContentRowData>[] => [
 	{
 		label: t(translationsConnector.CORE_TRANSLATIONS.TABLE_NAME),
@@ -74,112 +70,119 @@ export const INDEX_CONTENT_COLUMNS = (
 		},
 		width: '12%',
 	},
-	...(disabled
-		? [
-				{
-					label: '',
-					disableSorting: true,
-					classList: ['u-text-center'],
-					width: '5%',
-					component() {
-						return (
-							<HoverTooltip
-								value={tModule(MODULE_TRANSLATIONS.EDIT)}
-								placement="bottom"
-								size="small"
-								type="dark"
-							>
-								<Button icon="edit" onClick={() => null} transparent />
-							</HoverTooltip>
-						);
-					},
-				},
-				{
-					label: '',
-					disableSorting: true,
-					classList: ['u-text-center'],
-					width: '5%',
-					component() {
-						return (
-							<HoverTooltip
-								value={tModule(MODULE_TRANSLATIONS.INDEX)}
-								placement="bottom"
-								size="small"
-								type="dark"
-							>
-								<Button
-									icon="plus"
-									onClick={() => null}
-									transparent
-									type="success"
-								/>
-							</HoverTooltip>
-						);
-					},
-				},
-		  ]
-		: []),
-	...(!disabled
-		? [
-				{
-					label: '',
-					disableSorting: true,
-					classList: ['u-text-center'],
-					width: '5%',
-					component() {
-						return (
-							<HoverTooltip
-								value={tModule(MODULE_TRANSLATIONS.REINDEX)}
-								placement="bottom"
-								size="small"
-								type="dark"
-							>
-								<Button icon="refresh" onClick={() => null} transparent />
-							</HoverTooltip>
-						);
-					},
-				},
-				{
-					label: '',
-					disableSorting: true,
-					classList: ['u-text-center'],
-					width: '5%',
-					component() {
-						return (
-							<HoverTooltip
-								value={tModule(MODULE_TRANSLATIONS.EDIT)}
-								placement="bottom"
-								size="small"
-								type="dark"
-							>
-								<Button icon="edit" onClick={() => null} transparent />
-							</HoverTooltip>
-						);
-					},
-				},
-				{
-					label: '',
-					disableSorting: true,
-					classList: ['u-text-center'],
-					width: '5%',
-					component() {
-						return (
-							<HoverTooltip
-								value={tModule(MODULE_TRANSLATIONS.NO_INDEX)}
-								placement="bottom"
-								size="small"
-								type="dark"
-							>
-								<Button
-									icon="trash-o"
-									onClick={() => null}
-									transparent
-									type="danger"
-								/>
-							</HoverTooltip>
-						);
-					},
-				},
-		  ]
-		: []),
+];
+
+export const ENABLED_INDEX_CONTENT_COLUMNS = (
+	t: TranslateFunc,
+	tModule: TranslateFunc,
+	disableContentType: (ctId: string) => void
+): TableColumn<IndexContentRowData>[] => [
+	...GENERIC_INDEX_CONTENT_COLUMNS(t, tModule),
+	{
+		label: '',
+		disableSorting: true,
+		classList: ['u-text-center'],
+		width: '5%',
+		component() {
+			return (
+				<HoverTooltip
+					value={tModule(MODULE_TRANSLATIONS.REINDEX)}
+					placement="bottom"
+					size="small"
+					type="dark"
+				>
+					<Button icon="refresh" onClick={() => null} transparent />
+				</HoverTooltip>
+			);
+		},
+	},
+	{
+		label: '',
+		disableSorting: true,
+		classList: ['u-text-center'],
+		width: '5%',
+		component() {
+			return (
+				<HoverTooltip
+					value={tModule(MODULE_TRANSLATIONS.EDIT)}
+					placement="bottom"
+					size="small"
+					type="dark"
+				>
+					<Button icon="edit" onClick={() => null} transparent />
+				</HoverTooltip>
+			);
+		},
+	},
+	{
+		label: '',
+		disableSorting: true,
+		classList: ['u-text-center'],
+		width: '5%',
+		component(_, { contentTypeId }) {
+			return (
+				<HoverTooltip
+					value={tModule(MODULE_TRANSLATIONS.NO_INDEX)}
+					placement="bottom"
+					size="small"
+					type="dark"
+				>
+					<Button
+						icon="trash-o"
+						onClick={() => disableContentType(contentTypeId)}
+						transparent
+						type="danger"
+					/>
+				</HoverTooltip>
+			);
+		},
+	},
+];
+export const DISABLED_INDEX_CONTENT_COLUMNS = (
+	t: TranslateFunc,
+	tModule: TranslateFunc,
+	enableContentType: (ctId: string) => void
+): TableColumn<IndexContentRowData>[] => [
+	...GENERIC_INDEX_CONTENT_COLUMNS(t, tModule),
+	{
+		label: '',
+		disableSorting: true,
+		classList: ['u-text-center'],
+		width: '5%',
+		component() {
+			return (
+				<HoverTooltip
+					value={tModule(MODULE_TRANSLATIONS.EDIT)}
+					placement="bottom"
+					size="small"
+					type="dark"
+				>
+					<Button icon="edit" onClick={() => null} transparent />
+				</HoverTooltip>
+			);
+		},
+	},
+	{
+		label: '',
+		disableSorting: true,
+		classList: ['u-text-center'],
+		width: '5%',
+		component(_: unknown, { contentTypeId }) {
+			return (
+				<HoverTooltip
+					value={tModule(MODULE_TRANSLATIONS.INDEX)}
+					placement="bottom"
+					size="small"
+					type="dark"
+				>
+					<Button
+						icon="plus"
+						onClick={() => enableContentType(contentTypeId)}
+						transparent
+						type="success"
+					/>
+				</HoverTooltip>
+			);
+		},
+	},
 ];
