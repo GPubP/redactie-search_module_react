@@ -8,7 +8,7 @@ export const getAlertMessages = (data: ContentTypeModel): Record<string, any> =>
 		},
 		error: {
 			title: 'Bewaren mislukt',
-			message: `Het bewaren van het menu "${data.meta.label}" is mislukt`,
+			message: `Het bewaren van de index "${data.meta.label}" is mislukt`,
 		},
 	},
 	disabled: {
@@ -18,7 +18,7 @@ export const getAlertMessages = (data: ContentTypeModel): Record<string, any> =>
 		},
 		error: {
 			title: 'Bewaren mislukt',
-			message: `Het bewaren van het menu "${data.meta.label}" is mislukt`,
+			message: `Het bewaren van de index "${data.meta.label}" is mislukt`,
 		},
 	},
 });

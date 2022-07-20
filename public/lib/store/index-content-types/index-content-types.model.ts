@@ -1,10 +1,6 @@
 import { ContentTypeModel } from '@redactie/content-types-module/dist/lib/store/contentTypes';
 import { BaseMultiEntityState, Page } from '@redactie/utils';
 
-export interface InternalState {
-	readonly menu: ContentTypeModel | null;
-}
-
 export type IndexContentTypeModel = ContentTypeModel[];
 
 export interface IndexContentTypesState
