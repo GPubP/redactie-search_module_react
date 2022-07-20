@@ -121,8 +121,6 @@ const IndexDetailSettings: FC<IndexDetailRouteProps<SearchMatchProps>> = ({
 	const enabledRows: IndexContentRowData[] = (enabledContentTypes || []).map(mapContentType);
 	const disabledRows: IndexContentRowData[] = (disabledContentTypes || []).map(mapContentType);
 
-	console.log(enabledContentTypesPaging);
-
 	return (
 		<>
 			<AlertContainer
