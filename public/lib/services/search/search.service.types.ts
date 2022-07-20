@@ -35,6 +35,11 @@ export interface IndexSchema {
 	meta: IndexMetaSchema;
 }
 
+export interface IndexDetailResponse {
+	uuid: string;
+	meta: IndexMetaSchema;
+}
+
 export type IndexesSchema = EmbeddedResourceResponse<'indexes', IndexSchema>;
 
 export type IndexContentTypesSchema = EmbeddedResourceResponse<'content-types', ContentTypeModel>;
@@ -48,3 +53,9 @@ export interface CreateIndexDto {
 }
 
 export type UpdateIndexDto = CreateIndexDto;
+
+export interface UpdateIndexActivationDto {
+	id: string;
+	activate: boolean;
+	label?: string;
+}

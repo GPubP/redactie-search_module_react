@@ -8,6 +8,7 @@ import {
 	IndexContentTypesSchema,
 	IndexesSchema,
 	IndexSchema,
+	UpdateIndexActivationDto,
 	UpdateIndexDto,
 } from './search.service.types';
 
@@ -68,6 +69,16 @@ export class SearchApiService {
 				}
 			)
 			.json<IndexContentTypesSchema>();
+	}
+
+	public async updateIndexActivation(
+		siteId: string,
+		{ id, activate }: UpdateIndexActivationDto
+	): Promise<IndexSchema> {
+		const updateType = activate ? 'activate' : 'deactivate';
+		return await api
+			.put(`${SEARCH_REQUEST_PREFIX_URL}/${siteId}/indexes/${id}/${updateType}`)
+			.json();
 	}
 }
 
