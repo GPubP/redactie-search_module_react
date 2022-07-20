@@ -120,10 +120,7 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 			return Promise.resolve();
 		}
 
-		return indexesFacade.updateIndex(siteId, indexUuid, {
-			...values,
-			contentTypes: index.data.contentTypes.map(ct => ct.contentTypeId) || [],
-		});
+		return indexesFacade.updateIndex(siteId, indexUuid, values);
 	};
 
 	const onDelete = async (): Promise<void> => {
@@ -175,8 +172,9 @@ const IndexDetail: FC<SearchRouteProps> = ({ location, route, match }) => {
 			<ContextHeader
 				tabs={activeTabs}
 				linkProps={(props: ContextHeaderTabLinkProps) => {
-					const to = generatePath(`${MODULE_PATHS.site.root}/${props.href}`, {
+					const to = generatePath(`${MODULE_PATHS.site.indexDetail}/${props.href}`, {
 						siteId,
+						indexUuid,
 					});
 					return {
 						...props,

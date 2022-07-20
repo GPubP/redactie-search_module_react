@@ -1,3 +1,4 @@
+import { ContentTypeModel } from '@redactie/content-types-module/dist/lib/store/contentTypes';
 import { EmbeddedResourceResponse } from '@redactie/utils';
 
 export interface IndexDataContentTypeFieldSchema {
@@ -8,7 +9,7 @@ export interface IndexDataContentTypeFieldSchema {
 
 export interface IndexDataContentTypeSchema {
 	contentTypeId: string;
-	field: IndexDataContentTypeFieldSchema[];
+	fields: IndexDataContentTypeFieldSchema[];
 }
 
 export interface IndexDataSchema {
@@ -41,13 +42,18 @@ export interface IndexDetailResponse {
 
 export type IndexesSchema = EmbeddedResourceResponse<'indexes', IndexSchema>;
 
+export type IndexContentTypesSchema = EmbeddedResourceResponse<'content-types', ContentTypeModel>;
+
 export interface CreateIndexDto {
 	label: string;
 	description: string;
-	contentTypes: string[];
+	contentTypes?: {
+		contentTypeId: string;
+	}[];
 }
 
 export type UpdateIndexDto = CreateIndexDto;
+
 export interface UpdateIndexActivationDto {
 	id: string;
 	activate: boolean;

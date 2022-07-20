@@ -27,6 +27,8 @@ export const MODULE_PATHS = {
 		createIndexSettings: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/indexes/aanmaken/instellingen`,
 		searchSettings: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/instellingen`,
 		images: `${SITE_ROOT}/configuratie${SEARCH_ROOT}/instellingen/afbeeldingen`,
+		contentTypeDetail: `${SITE_ROOT}/content-types/:contentTypeId`,
+		contentOverview: `${SITE_ROOT}/content`,
 	},
 };
 
@@ -68,6 +70,7 @@ export enum ALERT_CONTAINER_IDS {
 	updateIndex = 'update-index',
 	indexSettings = 'index-settings',
 	indexOverview = 'index-overview',
+	indexContent = 'index-content',
 }
 
 export const INDEX_DETAIL_TAB_MAP: {

@@ -14,6 +14,7 @@ export interface SearchModuleRouteProps<
 
 export interface SearchMatchProps {
 	siteId: string;
+	indexUuid: string;
 }
 
 export interface Tab extends ContextHeaderTab {

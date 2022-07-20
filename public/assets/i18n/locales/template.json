@@ -15,5 +15,11 @@
   "INDEX_DELETE_DESCRIPTION": "Verwijder deze index.",
   "LABEL_VALIDATION_MESSAGE": "Een index moet een naam hebben",
   "DESCRIPTION_VALIDATION_MESSAGE": "Beschrijving is een verplicht veld",
-  "INDEX_DELETE_PROMPT_BODY": "Wanneer je deze index verwijderd wordt ook de de desbetreffende index in Elastic App Search mee verwijderd. Deze actie kan niet ongedaan gemaakt worden."
+  "INDEX_DELETE_PROMPT_BODY": "Wanneer je deze index verwijderd wordt ook de de desbetreffende index in Elastic App Search mee verwijderd. Deze actie kan niet ongedaan gemaakt worden.",
+  "PAGE": "Pagina",
+  "BLOCK": "Blok",
+  "INDEX": "Indexeren",
+  "NO_INDEX": "Niet indexeren",
+  "REINDEX": "Herindexeren",
+  "EDIT": "Bewerken"
 }

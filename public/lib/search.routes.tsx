@@ -6,9 +6,9 @@ import { rolesRightsConnector, sitesConnector } from './connectors';
 import { MODULE_PATHS, SITE_PARAM } from './search.const';
 import { SearchModuleRouteProps } from './search.types';
 import {
-	IndexContent,
 	IndexCreate,
 	IndexDetail,
+	IndexDetailContent,
 	IndexDetailSettings,
 	IndexesOverview,
 	SearchDetail,
@@ -105,7 +105,7 @@ export const registerRoutes = (): void => {
 					{
 						path: MODULE_PATHS.site.indexContent,
 						breadcrumb: false,
-						component: IndexContent,
+						component: IndexDetailContent,
 					},
 				],
 			},
